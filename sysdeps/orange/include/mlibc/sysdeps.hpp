@@ -76,7 +76,8 @@ struct OrangeSysdepTags :
 	Mkdirat,
 	Umask,
 	Pread,
-	Sleep
+	Sleep,
+	Clone
 {};
 
 template<typename Tag>
