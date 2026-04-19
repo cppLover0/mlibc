@@ -48,7 +48,7 @@ int Sysdeps<TcbSet>::operator()(void *pointer) {
 
 int Sysdeps<AnonAllocate>::operator()(size_t size, void **pointer) {
 	auto out = syscall(
-	    SYS_MMAP, std::nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0
+	    SYS_MMAP, 0, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0
 	);
 	if(int e = error(out); e)
 		return e;
@@ -110,7 +110,7 @@ int Sysdeps<Read>::operator()(int fd, void* buf, unsigned long size, long* ret) 
 	return 0;
 }
 int Sysdeps<Open>::operator()(const char *pathname, int flags, mode_t mode, int *fd) {
-	auto ret = syscall(SYS_OPEN, (std::uint64_t)pathname, flags, mode);
+	auto ret = syscall(SYS_OPEN, (uint64_t)pathname, flags, mode);
 	if(int e = error(ret); e)
 		return e;
 	*fd = ret;
