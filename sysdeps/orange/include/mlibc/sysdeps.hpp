@@ -78,7 +78,8 @@ struct OrangeSysdepTags :
 	Pread,
 	Sleep,
 	Clone,
-	GetGid
+	GetGid,
+	GetEgid
 {};
 
 template<typename Tag>

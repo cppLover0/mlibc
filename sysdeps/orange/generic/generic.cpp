@@ -600,4 +600,9 @@ gid_t Sysdeps<GetGid>::operator()() {
 	return ret;
 }
 
+gid_t Sysdeps<GetEgid>::operator()() {
+	auto ret = syscall(SYS_GETGID);
+	return ret;
+}
+
 } // namespace mlibc
