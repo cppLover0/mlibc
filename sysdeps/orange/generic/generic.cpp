@@ -595,4 +595,9 @@ int Sysdeps<Sleep>::operator()(time_t *secs, long *nanos) {
 	return 0;
 }
 
+gid_t Sysdeps<GetGid>::operator()() {
+	auto ret = syscall(SYS_GETGID);
+	return ret;
+}
+
 } // namespace mlibc

@@ -64,6 +64,7 @@
 #define SYS_CLONE 59
 #define SYS_NEWTHREAD 60
 #define SYS_GETPGID 61
+#define SYS_GETGID 62
 
 #ifndef __MLIBC_ABI_ONLY
 
