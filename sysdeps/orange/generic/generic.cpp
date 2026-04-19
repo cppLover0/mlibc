@@ -23,7 +23,7 @@ void Sysdeps<LibcLog>::operator()(const char *msg) {
 
 int Sysdeps<Isatty>::operator()(int fd) {
 	unsigned short winsizeHack[4];
-	auto ret = syscall(SYS_IOCTL, fd, 0x5413 /* TIOCGWINSZ */, &winsizeHack);
+	auto ret = syscall(SYS_IOCTL, fd, 0x5413 /* TIOCGWINSZ */, (uint64_t)&winsizeHack);
 	if (int e = error(ret); e)
 		return e;
 
@@ -31,11 +31,11 @@ int Sysdeps<Isatty>::operator()(int fd) {
 }
 
 int Sysdeps<Write>::operator()(int fd, void const *buf, size_t size, ssize_t *ret) {
-	auto ret = syscall(SYS_WRITE, fd, (uint64_t)buf, size);
-	if(int e = error(ret); e)
+	auto ret1 = syscall(SYS_WRITE, fd, (uint64_t)buf, size);
+	if(int e = error(ret1); e)
 		return e;
 
-	*ret = ret;
+	*ret = ret1;
 	return 0;
 }
 
@@ -48,7 +48,7 @@ int Sysdeps<TcbSet>::operator()(void *pointer) {
 
 int Sysdeps<AnonAllocate>::operator()(size_t size, void **pointer) {
 	auto out = syscall(
-	    SYS_MMAP, nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0
+	    SYS_MMAP, std::nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0
 	);
 	if(int e = error(out); e)
 		return e;
@@ -96,20 +96,21 @@ int Sysdeps<FutexWake>::operator()(int * uaddr, bool all) {
 }
 
 int Sysdeps<FutexWait>::operator()(int *pointer, int expected, const struct timespec *time) {
-	auto ret = syscall(SYS_FUTEX, (uint64_t)pointer, 0, expected, time);
+	auto ret = syscall(SYS_FUTEX, (uint64_t)pointer, 0, expected, (uint64_t)time);
 	if (int e = error(ret); e)
 		return e;
 	return 0;
 }
 
 int Sysdeps<Read>::operator()(int fd, void* buf, unsigned long size, long* ret) {
-	auto ret = syscall(SYS_READ, fd, (uint64_t)buf, size);
-	if(int e = error(ret); e)
+	auto ret1 = syscall(SYS_READ, fd, (uint64_t)buf, size);
+	if(int e = error(ret1); e)
 		return e;
+	*ret = ret1;
 	return 0;
 }
-int Sysdeps<Open>::operator()(const char *path, int flags, int mode, int *fd) {
-	auto ret = syscall(SYS_OPEN, (std::uint64_t)path, flags, mode);
+int Sysdeps<Open>::operator()(const char *pathname, int flags, mode_t mode, int *fd) {
+	auto ret = syscall(SYS_OPEN, (std::uint64_t)pathname, flags, mode);
 	if(int e = error(ret); e)
 		return e;
 	*fd = ret;
@@ -125,7 +126,7 @@ int Sysdeps<VmMap>::operator()(void *hint, size_t size, int prot, int flags, int
 }
 
 int Sysdeps<VmUnmap>::operator()(void* addr, size_t len) {
-	auto ret = syscall(SYS_MUNMAP, (std::uint64_t)addr, len);
+	auto ret = syscall(SYS_MUNMAP, (uint64_t)addr, len);
 	if(int e = ret; e)
 		return e;
 	return 0;
@@ -156,18 +157,18 @@ int Sysdeps<GetPid>::operator()() {
 	return ret;
 }
 
-int Sysdeps<GetUid>::operator()() {
+uid_t Sysdeps<GetUid>::operator()() {
 	auto ret = syscall(SYS_GETUID);
 	return ret;
 }
 
-int Sysdeps<GetEuid>::operator()() {
+uid_t Sysdeps<GetEuid>::operator()() {
 	auto ret = syscall(SYS_GETUID);
 	return ret;
 }
 
 int Sysdeps<GetPpid>::operator()() {
-	auto ret = syscall(SYS_GETPPID)
+	auto ret = syscall(SYS_GETPPID);
 	return ret;
 }
 
@@ -323,6 +324,7 @@ int Sysdeps<Poll>::operator()(struct pollfd *fds, nfds_t count, int timeout, int
 }
 
 int Sysdeps<Dup>::operator()(int fd, int flags, int *newfd) {
+	(void)flags;
 	auto ret = syscall(SYS_DUP, fd);
 	if(int e = error(ret); e)
 		return e;
@@ -331,6 +333,7 @@ int Sysdeps<Dup>::operator()(int fd, int flags, int *newfd) {
 }
 
 int Sysdeps<Dup2>::operator()(int fd, int flags, int newfd) {
+	(void)flags;
 	auto ret = syscall(SYS_DUP2, fd, newfd);
 	if(int e = error(ret); e)
 		return e;
@@ -454,7 +457,7 @@ int Sysdeps<ReadEntries>::operator()(int handle, void *buffer, size_t max_size, 
 	auto ret = syscall(SYS_GETDENTS64, handle, (uint64_t)buffer, max_size);
 	if(int e = error(ret); e)
 		return e;
-	*bytes_read = ret
+	*bytes_read = ret;
 	return 0;
 }
 
@@ -545,7 +548,7 @@ int Sysdeps<Fchdir>::operator()(int fd) {
 }
 
 int Sysdeps<Mkdir>::operator()(const char *path, mode_t mode) {
-	auto ret = syscall(SYS_MKDIR, (uint64_t)path);
+	auto ret = syscall(SYS_MKDIR, (uint64_t)path, mode);
 	if(int e = error(ret); e)
 		return e;
 	return 0;
@@ -583,7 +586,7 @@ int Sysdeps<Sleep>::operator()(time_t *secs, long *nanos) {
 	};
 	struct timespec rem = {};
 
-	auto ret = syscall(SYS_NANOSLEEP, &req, &rem);
+	auto ret = syscall(SYS_NANOSLEEP, (uint64_t)&req, (uint64_t)&rem);
 	if (int e = error(ret); e)
 		return e;
 
