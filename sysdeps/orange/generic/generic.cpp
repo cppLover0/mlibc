@@ -632,7 +632,7 @@ int Sysdeps<Sysconf>::operator()(int num, long *ret) {
 	switch(num) {
 		case _SC_OPEN_MAX: {
 			struct rlimit ru;
-			if(int e = sysdep<GetRlimit>(RLIMIT_NOFILE, (uint64_t)&ru); e) {
+			if(int e = sysdep<GetRlimit>(RLIMIT_NOFILE, &ru); e) {
 				return e;
 			}
 			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
@@ -654,7 +654,7 @@ int Sysdeps<Sysconf>::operator()(int num, long *ret) {
 		}
 		case _SC_CHILD_MAX: {
 			struct rlimit ru;
-			if(int e = sysdep<GetRlimit>(RLIMIT_NPROC, (uint64_t)&ru); e) {
+			if(int e = sysdep<GetRlimit>(RLIMIT_NPROC, &ru); e) {
 				return e;
 			}
 			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
