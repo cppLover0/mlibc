@@ -474,7 +474,7 @@ int Sysdeps<Statfs>::operator()(const char *path, struct statfs *buf) {
 
 void _mlibc_restorer() {
 	syscall(SYS_SIGRETURN);
-	sysdep<LibcPanic>("meowf");
+	sysdep<LibcPanic>();
 }
 
 int Sysdeps<Sigaction>::operator()(int signum, const struct sigaction *act,
