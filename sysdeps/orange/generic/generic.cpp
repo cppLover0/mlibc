@@ -514,7 +514,7 @@ int Sysdeps<Sigprocmask>::operator()(int how, const sigset_t *set, sigset_t *old
 }
 
 int Sysdeps<Uname>::operator()(struct utsname *buf) {
-	auto ret = syscall(SYS_UMASK, (uint64_t)buf);
+	auto ret = syscall(SYS_UNAME, (uint64_t)buf);
 	if(int e = error(ret); e)
 		return e;
 	return 0;
