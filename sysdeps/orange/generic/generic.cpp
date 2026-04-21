@@ -587,7 +587,7 @@ int Sysdeps<Sleep>::operator()(time_t *secs, long *nanos) {
 	};
 	struct timespec rem = {};
 
-	auto ret = syscall(SYS_NANOSLEEP, (uint64_t)&req, (uint64_t)&rem);
+	auto ret = syscall(SYS_NANOSLEEP, 1, 0, (uint64_t)&req, (uint64_t)&rem);
 	if (int e = error(ret); e)
 		return e;
 
