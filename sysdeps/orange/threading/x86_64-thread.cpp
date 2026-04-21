@@ -34,8 +34,6 @@ namespace mlibc {
 	) {
 		// TODO guard
 
-		mlibc::infoLogger() << "mlibc: sys_prepare_stack() does not setup a guard!" << frg::endlog;
-
 		*guard_size = 0;
 
 		*stack_size = *stack_size ? *stack_size : DEFAULT_STACK;
