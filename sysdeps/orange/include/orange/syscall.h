@@ -68,6 +68,8 @@
 #define SYS_TTYNAME 63
 #define SYS_SYSINFO 64
 #define SYS_CPUCOUNT 65
+#define SYS_SIGRETURN 66
+#define SYS_KILL 67
 
 #ifndef __MLIBC_ABI_ONLY
 

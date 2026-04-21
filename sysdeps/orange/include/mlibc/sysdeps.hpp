@@ -84,7 +84,8 @@ struct OrangeSysdepTags :
 	GetRlimit,
 	Sysinfo,
 	Sysconf,
-	GetHostname
+	GetHostname,
+	Kill
 {};
 
 template<typename Tag>

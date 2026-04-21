@@ -472,6 +472,11 @@ int Sysdeps<Statfs>::operator()(const char *path, struct statfs *buf) {
 #if !MLIBC_BUILDING_RTLD
 #include <string.h>
 
+void _mlibc_restorer() {
+	syscall(SYS_SIGRETURN);
+	sysdep<LibcPanic>("meowf");
+}
+
 int Sysdeps<Sigaction>::operator()(int signum, const struct sigaction *act,
 		struct sigaction *oldact) {
 	struct ksigaction {
@@ -485,6 +490,7 @@ int Sysdeps<Sigaction>::operator()(int signum, const struct sigaction *act,
 	if (act) {
 		kernel_act.handler = act->sa_handler;
 		kernel_act.flags = act->sa_flags;
+		kernel_act.restorer = (void (*)(void))_mlibc_restorer;
 		memcpy(&kernel_act.mask, &act->sa_mask, sizeof(kernel_act.mask));
 	}
 
@@ -684,6 +690,13 @@ int Sysdeps<GetHostname>::operator()(char *buf, size_t bufsize) {
 	memcpy(buf, uname_buf.nodename, node_len);
 	buf[node_len] = '\0';
 	return 0;
+}
+
+int Sysdeps<Kill>::operator()(pid_t pid, int sig) {
+	auto ret = syscall(SYS_KILL, pid, sig);
+	if(int e = error(ret); e)
+		return e;
+	return ret;
 }
 
 } // namespace mlibc
