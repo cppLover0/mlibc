@@ -614,14 +614,14 @@ int Sysdeps<Ttyname>::operator()(int fd, char *buf, size_t size) {
 }
 
 int Sysdeps<GetRlimit>::operator()(int resource, struct rlimit *limit) {
-	auto ret = syscall(SYS_PRLIMIT64, 0, resource, 0, limit);
+	auto ret = syscall(SYS_PRLIMIT64, 0, resource, 0, (uint64_t)limit);
 	if (int e = error(ret); e)
 		return e;
 	return 0;
 }
 
 int Sysdeps<Sysinfo>::operator()(struct sysinfo *info) {
-	auto ret = syscall(SYS_SYSINFO, info);
+	auto ret = syscall(SYS_SYSINFO, (uint64_t)info);
 	if (int e = error(ret); e)
 		return e;
 	return 0;
@@ -632,7 +632,7 @@ int Sysdeps<Sysconf>::operator()(int num, long *ret) {
 	switch(num) {
 		case _SC_OPEN_MAX: {
 			struct rlimit ru;
-			if(int e = sysdep<GetRlimit>(RLIMIT_NOFILE, &ru); e) {
+			if(int e = sysdep<GetRlimit>(RLIMIT_NOFILE, (uint64_t)&ru); e) {
 				return e;
 			}
 			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
@@ -649,12 +649,12 @@ int Sysdeps<Sysconf>::operator()(int num, long *ret) {
 				return e;
 			}
 			unsigned unit = (info.mem_unit) ? info.mem_unit : 1;
-			*ret = std::min(long((info.totalram * unit) / PAGE_SIZE), LONG_MAX);
+			*ret = (info.totalram * unit) / 4096;
 			break;
 		}
 		case _SC_CHILD_MAX: {
 			struct rlimit ru;
-			if(int e = sysdep<GetRlimit>(RLIMIT_NPROC, &ru); e) {
+			if(int e = sysdep<GetRlimit>(RLIMIT_NPROC, (uint64_t)&ru); e) {
 				return e;
 			}
 			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
