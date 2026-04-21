@@ -605,4 +605,11 @@ gid_t Sysdeps<GetEgid>::operator()() {
 	return ret;
 }
 
+int Sysdeps<Ttyname>::operator()(int fd, char *buf, size_t size) {
+	auto ret = syscall(SYS_TTYNAME, fd, (uint64_t)buf, size);
+	if(int e = error(ret);e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

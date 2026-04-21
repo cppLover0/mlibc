@@ -65,6 +65,7 @@
 #define SYS_NEWTHREAD 60
 #define SYS_GETPGID 61
 #define SYS_GETGID 62
+#define SYS_TTYNAME 63
 
 #ifndef __MLIBC_ABI_ONLY
 
