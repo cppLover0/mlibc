@@ -66,6 +66,9 @@
 #define SYS_GETPGID 61
 #define SYS_GETGID 62
 #define SYS_TTYNAME 63
+#define SYS_SYSINFO 64
+#define SYS_PRLIMIT64 65
+#define SYS_CPUCOUNT 66
 
 #ifndef __MLIBC_ABI_ONLY
 

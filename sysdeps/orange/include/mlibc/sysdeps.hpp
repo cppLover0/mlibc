@@ -80,7 +80,11 @@ struct OrangeSysdepTags :
 	Clone,
 	GetGid,
 	GetEgid,
-	Ttyname
+	Ttyname,
+	GetRlimit,
+	Sysinfo,
+	Sysconf,
+	GetHostname
 {};
 
 template<typename Tag>

@@ -19,6 +19,7 @@ void Sysdeps<LibcPanic>::operator()() {
 void Sysdeps<LibcLog>::operator()(const char *msg) {
 	ssize_t unused;
 	sysdep<Write>(2, msg, strlen(msg), &unused);
+	sysdep<Write>(2, "\n\0", strlen("\n\0"), &unused);
 }
 
 int Sysdeps<Isatty>::operator()(int fd) {
@@ -609,6 +610,79 @@ int Sysdeps<Ttyname>::operator()(int fd, char *buf, size_t size) {
 	auto ret = syscall(SYS_TTYNAME, fd, (uint64_t)buf, size);
 	if(int e = error(ret);e)
 		return e;
+	return 0;
+}
+
+int Sysdeps<GetRlimit>::operator()(int resource, struct rlimit *limit) {
+	auto ret = syscall(SYS_PRLIMIT64, 0, resource, 0, limit);
+	if (int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Sysinfo>::operator()(struct sysinfo *info) {
+	auto ret = syscall(SYS_SYSINFO, info);
+	if (int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+
+int Sysdeps<Sysconf>::operator()(int num, long *ret) {
+	switch(num) {
+		case _SC_OPEN_MAX: {
+			struct rlimit ru;
+			if(int e = sysdep<GetRlimit>(RLIMIT_NOFILE, &ru); e) {
+				return e;
+			}
+			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
+			break;
+		}
+		case _SC_NPROCESSORS_CONF:
+		case _SC_NPROCESSORS_ONLN: {
+			*ret = syscall(SYS_CPUCOUNT);
+			break;
+		}
+		case _SC_PHYS_PAGES: {
+			struct sysinfo info;
+			if(int e = sysdep<Sysinfo>(&info); e) {
+				return e;
+			}
+			unsigned unit = (info.mem_unit) ? info.mem_unit : 1;
+			*ret = std::min(long((info.totalram * unit) / PAGE_SIZE), LONG_MAX);
+			break;
+		}
+		case _SC_CHILD_MAX: {
+			struct rlimit ru;
+			if(int e = sysdep<GetRlimit>(RLIMIT_NPROC, &ru); e) {
+				return e;
+			}
+			*ret = (ru.rlim_cur == RLIM_INFINITY) ? -1 : ru.rlim_cur;
+			break;
+		}
+		case _SC_LINE_MAX: {
+			*ret = -1;
+			break;
+		}
+		default: {
+			return EINVAL;
+		}
+	}
+
+	return 0;
+}
+
+int Sysdeps<GetHostname>::operator()(char *buf, size_t bufsize) {
+	struct utsname uname_buf;
+	if (auto e = sysdep<Uname>(&uname_buf); e)
+		return e;
+
+	auto node_len = strlen(uname_buf.nodename);
+	if (node_len >= bufsize)
+		return ENAMETOOLONG;
+
+	memcpy(buf, uname_buf.nodename, node_len);
+	buf[node_len] = '\0';
 	return 0;
 }
 
