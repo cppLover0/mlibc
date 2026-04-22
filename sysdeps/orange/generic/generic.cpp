@@ -704,4 +704,9 @@ int Sysdeps<Pause>::operator()() {
 	return ret;
 }
 
+int Sysdeps<Fsync>::operator()(int fd) {
+	(void)fd;
+	return 0;
+}
+
 } // namespace mlibc
