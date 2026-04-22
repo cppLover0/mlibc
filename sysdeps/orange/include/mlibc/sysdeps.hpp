@@ -85,7 +85,8 @@ struct OrangeSysdepTags :
 	Sysinfo,
 	Sysconf,
 	GetHostname,
-	Kill
+	Kill,
+	Pause
 {};
 
 template<typename Tag>

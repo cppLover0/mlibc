@@ -70,6 +70,7 @@
 #define SYS_CPUCOUNT 65
 #define SYS_SIGRETURN 66
 #define SYS_KILL 67
+#define SYS_PAUSE 68
 
 #ifndef __MLIBC_ABI_ONLY
 

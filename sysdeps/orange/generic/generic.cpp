@@ -699,4 +699,9 @@ int Sysdeps<Kill>::operator()(pid_t pid, int sig) {
 	return ret;
 }
 
+int Sysdeps<Pause>::operator()() {
+	auto ret = syscall(SYS_PAUSE);
+	return ret;
+}
+
 } // namespace mlibc
