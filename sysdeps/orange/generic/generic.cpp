@@ -762,4 +762,20 @@ int Sysdeps<Recvfrom>::operator()(int fd, void *buffer, size_t size, int flags, 
 	return 0;
 }
 
+int Sysdeps<MsgRecv>::operator()(int fd, struct msghdr *hdr, int flags, ssize_t *length) {
+	auto ret = syscall(SYS_MSG_RECV, fd, (uint64_t)hdr, flags);
+	if(int e = error(ret);e)
+		return e;
+	*length =ret;
+	return 0;
+}
+
+int Sysdeps<MsgSend>::operator()(int fd, const struct msghdr *hdr, int flags, ssize_t *length) {
+	auto ret = syscall(SYS_MSG_SEND, fd, (uint64_t)hdr, flags);
+	if(int e = error(ret);e)
+		return e;
+	*length =ret;
+	return 0;
+}
+
 } // namespace mlibc
