@@ -95,7 +95,8 @@ struct OrangeSysdepTags :
 	Connect,
 	Sendto,
 	Recvfrom,
-	MsgRecv
+	MsgRecv,
+	MsgSend
 {};
 
 template<typename Tag>
