@@ -71,6 +71,11 @@
 #define SYS_SIGRETURN 66
 #define SYS_KILL 67
 #define SYS_PAUSE 68
+#define SYS_LISTEN 69
+#define SYS_ACCEPT 70
+#define SYS_SOCKET 71 
+#define SYS_CONNECT 72
+#define SYS_BIND 73
 
 #ifndef __MLIBC_ABI_ONLY
 

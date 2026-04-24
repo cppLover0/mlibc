@@ -709,4 +709,41 @@ int Sysdeps<Fsync>::operator()(int fd) {
 	return 0;
 }
 
+int Sysdeps<Listen>::operator()(int fd, int backlog) {
+	auto ret = syscall(SYS_LISTEN, fd, backlog);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Accept>::operator()(int fd, int *newfd, struct sockaddr *addr_ptr, socklen_t *addr_length, int flags) {
+	auto ret = syscall(SYS_ACCEPT, fd, (uint64_t)addr_ptr, (uint64_t)addr_length, flags);
+	if(int e = error(ret); e)
+		return e;
+	*newfd = ret;
+	return 0;
+}
+
+int Sysdeps<Socket>::operator()(int family, int type, int protocol, int *fd) {
+	auto ret = syscall(SYS_SOCKET, family, type, protocol);
+	if(int e = error(ret); e)
+		return e;
+	*fd = ret;
+	return 0;
+}
+
+int Sysdeps<Connect>::operator()(int fd, const struct sockaddr *addr_ptr, socklen_t addr_length) {
+	auto ret = syscall(SYS_CONNECT, fd, (uint64_t)addr_ptr, addr_length);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Bind>::operator()(int fd, const struct sockaddr *addr_ptr, socklen_t addr_length) {
+	auto ret = syscall(SYS_BIND, fd, (uint64_t)addr_ptr, addr_length);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

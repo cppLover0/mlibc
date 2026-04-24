@@ -87,7 +87,11 @@ struct OrangeSysdepTags :
 	GetHostname,
 	Kill,
 	Pause,
-	Fsync
+	Fsync,
+	Listen,
+	Accept,
+	Socket,
+	
 {};
 
 template<typename Tag>
