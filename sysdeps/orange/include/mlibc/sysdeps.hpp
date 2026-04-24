@@ -92,7 +92,9 @@ struct OrangeSysdepTags :
 	Accept,
 	Socket,
 	Bind,
-	Connect
+	Connect,
+	Sendto,
+	Recvfrom
 {};
 
 template<typename Tag>

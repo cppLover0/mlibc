@@ -746,4 +746,20 @@ int Sysdeps<Bind>::operator()(int fd, const struct sockaddr *addr_ptr, socklen_t
 	return 0;
 }
 
+int Sysdeps<Sendto>::operator()(int fd, const void *buffer, size_t size, int flags, const struct sockaddr *sock_addr, socklen_t addr_length, ssize_t *length) {
+	auto ret = syscall(SYS_SENDTO, fd, (uint64_t)buffer, size, flags, (uint64_t)sock_addr, (uint64_t)addr_length);
+	if(int e = error(ret); e)
+		return e;
+	*length = ret;
+	return 0;
+}
+
+int Sysdeps<Recvfrom>::operator()(int fd, void *buffer, size_t size, int flags, struct sockaddr *sock_addr, socklen_t *addr_length, ssize_t *length) {
+	auto ret = syscall(SYS_RECVFROM, fd, (uint64_t)buffer, size, flags, (uint64_t)sock_addr, (uint64_t)addr_length);
+	if(int e = error(ret); e)
+		return e;
+	*length = ret;
+	return 0;
+}
+
 } // namespace mlibc

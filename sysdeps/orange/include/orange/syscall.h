@@ -76,6 +76,8 @@
 #define SYS_SOCKET 71 
 #define SYS_CONNECT 72
 #define SYS_BIND 73
+#define SYS_RECVFROM 74
+#define SYS_SENDTO 75
 
 #ifndef __MLIBC_ABI_ONLY
 
