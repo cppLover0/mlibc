@@ -91,7 +91,8 @@ struct OrangeSysdepTags :
 	Listen,
 	Accept,
 	Socket,
-	
+	Bind,
+	Connect
 {};
 
 template<typename Tag>
