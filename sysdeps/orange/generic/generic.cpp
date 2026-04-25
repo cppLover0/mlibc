@@ -792,4 +792,12 @@ int Sysdeps<Linkat>::operator()(int olddirfd, const char *old_path, int newdirfd
 	return 0;
 }
 
+int Sysdeps<Fadvise>::operator()(int fd, off_t offset, off_t length, int advice) {
+	(void)fd;
+	(void)offset;
+	(void)length;
+	(void)advice;
+	return 0;
+}
+
 } // namespace mlibc

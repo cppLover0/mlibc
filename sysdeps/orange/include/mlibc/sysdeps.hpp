@@ -98,7 +98,8 @@ struct OrangeSysdepTags :
 	MsgRecv,
 	MsgSend,
 	Link,
-	Linkat
+	Linkat,
+	Fadvice
 {};
 
 template<typename Tag>
