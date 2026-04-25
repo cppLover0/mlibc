@@ -778,4 +778,18 @@ int Sysdeps<MsgSend>::operator()(int fd, const struct msghdr *hdr, int flags, ss
 	return 0;
 }
 
+int Sysdeps<Link>::operator()(const char *old_path, const char *new_path) {
+	auto ret = syscall(SYS_LINK, (uint64_t)old_path, (uint64_t)new_path);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Linkat>::operator()(int olddirfd, const char *old_path, int newdirfd, const char *new_path, int flags) {
+	auto ret = syscall(SYS_LINKAT, olddirfd, (uint64_t)old_path, newdirfd, (uint64_t)new_path, flags);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

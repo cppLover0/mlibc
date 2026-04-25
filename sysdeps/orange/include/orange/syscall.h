@@ -80,6 +80,8 @@
 #define SYS_SENDTO 75
 #define SYS_MSG_RECV 76
 #define SYS_MSG_SEND 77
+#define SYS_LINK 78
+#define SYS_LINKAT 79
 
 #ifndef __MLIBC_ABI_ONLY
 
