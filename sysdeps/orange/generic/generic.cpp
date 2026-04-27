@@ -805,4 +805,8 @@ int Sysdeps<SetGid>::operator()(gid_t new_gid) {
 	return 0;
 }
 
+int Sysdeps<SetUid>::operator()(uid_t uid) {
+	return 0;
+}
+
 } // namespace mlibc

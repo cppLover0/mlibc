@@ -100,7 +100,8 @@ struct OrangeSysdepTags :
 	Link,
 	Linkat,
 	Fadvise,
-	SetGid
+	SetGid,
+	SetUid
 {};
 
 template<typename Tag>
