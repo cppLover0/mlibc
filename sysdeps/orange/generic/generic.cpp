@@ -809,4 +809,8 @@ int Sysdeps<SetUid>::operator()(uid_t uid) {
 	return 0;
 }
 
+int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
+	return 0;
+}
+
 } // namespace mlibc
