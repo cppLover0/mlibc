@@ -99,7 +99,8 @@ struct OrangeSysdepTags :
 	MsgSend,
 	Link,
 	Linkat,
-	Fadvise
+	Fadvise,
+	SetGid
 {};
 
 template<typename Tag>
