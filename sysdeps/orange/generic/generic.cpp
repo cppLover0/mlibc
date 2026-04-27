@@ -800,7 +800,7 @@ int Sysdeps<Fadvise>::operator()(int fd, off_t offset, off_t length, int advice)
 	return 0;
 }
 
-int Sysdeps<SetGid>::operator(gid_t new_gid) {
+int Sysdeps<SetGid>::operator()(gid_t new_gid) {
 	(void)new_gid;
 	return 0;
 }
