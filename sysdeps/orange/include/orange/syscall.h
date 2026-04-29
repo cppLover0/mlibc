@@ -82,6 +82,7 @@
 #define SYS_MSG_SEND 77
 #define SYS_LINK 78
 #define SYS_LINKAT 79
+#define SYS_GETSOCKOPT 80
 
 #ifndef __MLIBC_ABI_ONLY
 

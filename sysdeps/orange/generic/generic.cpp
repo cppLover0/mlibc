@@ -813,4 +813,11 @@ int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
 	return 0;
 }
 
+int Sysdeps<GetSockopt>::operator()(int fd, int layer, int number, void *__restrict buffer, socklen_t *__restrict size) { 
+	auto ret = syscall(SYS_GETSOCKOPT, fd, layer, number, (uint64_t)buffer, (uint64_t)size);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
