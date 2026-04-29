@@ -17,7 +17,7 @@ void Sysdeps<LibcPanic>::operator()() {
 }
 
 void Sysdeps<LibcLog>::operator()(const char *msg) {
-	syscall(SYS_LIBCLOG, msg);
+	syscall(SYS_LIBCLOG, (uint64_t)msg);
 }
 
 int Sysdeps<Isatty>::operator()(int fd) {
