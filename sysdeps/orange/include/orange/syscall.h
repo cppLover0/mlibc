@@ -84,6 +84,7 @@
 #define SYS_LINKAT 79
 #define SYS_GETSOCKOPT 80
 #define SYS_SETSOCKOPT 81
+#define SYS_LIBCLOG 82
 
 #ifndef __MLIBC_ABI_ONLY
 

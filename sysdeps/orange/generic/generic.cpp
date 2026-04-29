@@ -17,9 +17,7 @@ void Sysdeps<LibcPanic>::operator()() {
 }
 
 void Sysdeps<LibcLog>::operator()(const char *msg) {
-	ssize_t unused;
-	sysdep<Write>(2, msg, strlen(msg), &unused);
-	sysdep<Write>(2, "\n\0", strlen("\n\0"), &unused);
+	syscall(SYS_LIBCLOG, msg);
 }
 
 int Sysdeps<Isatty>::operator()(int fd) {
