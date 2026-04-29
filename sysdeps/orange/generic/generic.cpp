@@ -821,7 +821,7 @@ int Sysdeps<GetSockopt>::operator()(int fd, int layer, int number, void *__restr
 }
 
 int Sysdeps<SetSockopt>::operator()(int fd, int layer, int number, const void *buffer, socklen_t size) {
-	auto ret = syscall(SYS_SETSOCKOPT, fd, layer, number, buffer, size, 0);
+	auto ret = syscall(SYS_SETSOCKOPT, fd, layer, number, (uint64_t)buffer, size, 0);
 	if (int e = error(ret); e)
 		return e;
 	return 0;
