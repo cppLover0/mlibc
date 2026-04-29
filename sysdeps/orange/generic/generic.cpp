@@ -820,4 +820,11 @@ int Sysdeps<GetSockopt>::operator()(int fd, int layer, int number, void *__restr
 	return 0;
 }
 
+int Sysdeps<SetSockopt>::operator()(int fd, int layer, int number, const void *buffer, socklen_t size) {
+	auto ret = do_syscall(SYS_SETSOCKOPT, fd, layer, number, buffer, size, 0);
+	if (int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
