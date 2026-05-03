@@ -825,4 +825,15 @@ int Sysdeps<SetSockopt>::operator()(int fd, int layer, int number, const void *b
 	return 0;
 }
 
+int Sysdeps<Ptsname>::operator()(int fd, char *buffer, size_t length) {
+	auto ret = syscall(SYS_PTSNAME, fd, (uint64_t)buffer, length);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Unlockpt>::operator()(int fd) {
+	return 0;
+}
+
 } // namespace mlibc

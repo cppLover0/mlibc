@@ -104,7 +104,9 @@ struct OrangeSysdepTags :
 	SetUid,
 	ThreadSetname,
 	GetSockopt,
-	SetSockopt
+	SetSockopt,
+	Ptsname,
+	Unlockpt
 {};
 
 template<typename Tag>

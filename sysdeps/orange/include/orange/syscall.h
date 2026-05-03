@@ -85,6 +85,7 @@
 #define SYS_GETSOCKOPT 80
 #define SYS_SETSOCKOPT 81
 #define SYS_LIBCLOG 82
+#define SYS_PTSNAME 83
 
 #ifndef __MLIBC_ABI_ONLY
 
