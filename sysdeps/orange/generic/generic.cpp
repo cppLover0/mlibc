@@ -836,4 +836,11 @@ int Sysdeps<Unlockpt>::operator()(int fd) {
 	return 0;
 }
 
+int Sysdeps<Fchmod>::operator()(int fd, mode_t mode) {
+	auto ret = syscall(SYS_FCHMOD, fd, mode);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
