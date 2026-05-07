@@ -107,7 +107,9 @@ struct OrangeSysdepTags :
 	SetSockopt,
 	Ptsname,
 	Unlockpt,
-	Fchmod
+	Fchmod,
+	Rename,
+	Renameat
 {};
 
 template<typename Tag>

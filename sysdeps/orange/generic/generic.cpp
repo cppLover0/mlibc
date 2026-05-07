@@ -776,6 +776,20 @@ int Sysdeps<MsgSend>::operator()(int fd, const struct msghdr *hdr, int flags, ss
 	return 0;
 }
 
+int Sysdeps<Rename>::operator()(const char *old_path, const char *new_path) {
+	auto ret = syscall(SYS_RENAME, (uint64_t)old_path, (uint64_t)new_path);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Renameat>::operator()(int olddirfd, const char *old_path, int newdirfd, const char *new_path) {
+	auto ret = syscall(SYS_RENAMEAT, olddirfd, (uint64_t)old_path, newdirfd, (uint64_t)new_path);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 int Sysdeps<Link>::operator()(const char *old_path, const char *new_path) {
 	auto ret = syscall(SYS_LINK, (uint64_t)old_path, (uint64_t)new_path);
 	if(int e = error(ret); e)
