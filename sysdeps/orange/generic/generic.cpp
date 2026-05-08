@@ -865,4 +865,11 @@ int Sysdeps<Sockname>::operator()(int fd, struct sockaddr *addr_ptr, socklen_t m
 	return 0;
 }
 
+int Sysdeps<Socketpair>::operator()(int domain, int type_and_flags, int proto, int *fds) {
+	auto ret = syscall(SYS_SOCKETPAIR, (uint64_t)fds, type_and_flags);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

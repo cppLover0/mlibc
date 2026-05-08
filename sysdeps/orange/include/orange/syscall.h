@@ -90,6 +90,7 @@
 #define SYS_RENAME 87
 #define SYS_RENAMEAT 88
 #define SYS_GETSOCKNAME 89
+#define SYS_SOCKETPAIR
 
 #ifndef __MLIBC_ABI_ONLY
 

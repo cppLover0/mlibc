@@ -110,7 +110,8 @@ struct OrangeSysdepTags :
 	Fchmod,
 	Rename,
 	Renameat,
-	Sockname
+	Sockname,
+	Socketpair
 {};
 
 template<typename Tag>
