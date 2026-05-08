@@ -89,6 +89,7 @@
 #define SYS_FCHMOD 86
 #define SYS_RENAME 87
 #define SYS_RENAMEAT 88
+#define SYS_GETSOCKNAME 89
 
 #ifndef __MLIBC_ABI_ONLY
 

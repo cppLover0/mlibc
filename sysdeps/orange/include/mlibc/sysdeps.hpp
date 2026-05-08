@@ -109,7 +109,8 @@ struct OrangeSysdepTags :
 	Unlockpt,
 	Fchmod,
 	Rename,
-	Renameat
+	Renameat,
+	Sockname
 {};
 
 template<typename Tag>
