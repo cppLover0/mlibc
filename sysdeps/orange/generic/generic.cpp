@@ -880,4 +880,8 @@ int Sysdeps<Socketpair>::operator()(int domain, int type_and_flags, int proto, i
 	return 0;
 }
 
+int Sysdeps<SetRlimit>::operator()(int resource, const struct rlimit *limit) {
+	return 0;
+}
+
 } // namespace mlibc
