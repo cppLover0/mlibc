@@ -111,7 +111,8 @@ struct OrangeSysdepTags :
 	Rename,
 	Renameat,
 	Sockname,
-	Socketpair
+	Socketpair,
+	Peername
 {};
 
 template<typename Tag>
