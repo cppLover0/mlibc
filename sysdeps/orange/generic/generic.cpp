@@ -865,6 +865,14 @@ int Sysdeps<Sockname>::operator()(int fd, struct sockaddr *addr_ptr, socklen_t m
 	return 0;
 }
 
+int Sysdeps<Peername>::operator()(int fd, struct sockaddr *addr_ptr, socklen_t max_addr_length, socklen_t *actual_length) {
+	auto ret = syscall(SYS_GETSOCKNAME, fd, (uint64_t)addr_ptr, max_addr_length);
+	if(int e = error(ret); e)
+		return e;
+	*actual_length = ret;
+	return 0;
+}
+
 int Sysdeps<Socketpair>::operator()(int domain, int type_and_flags, int proto, int *fds) {
 	auto ret = syscall(SYS_SOCKETPAIR, (uint64_t)fds, type_and_flags);
 	if(int e = error(ret); e)
