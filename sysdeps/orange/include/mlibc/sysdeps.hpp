@@ -113,7 +113,8 @@ struct OrangeSysdepTags :
 	Sockname,
 	Socketpair,
 	Peername,
-	SetRlimit
+	SetRlimit,
+	Pwrite
 {};
 
 template<typename Tag>

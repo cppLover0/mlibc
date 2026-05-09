@@ -91,6 +91,7 @@
 #define SYS_RENAMEAT 88
 #define SYS_GETSOCKNAME 89
 #define SYS_SOCKETPAIR 90
+#define SYS_PWRITE64 91
 
 #ifndef __MLIBC_ABI_ONLY
 

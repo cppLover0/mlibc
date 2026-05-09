@@ -884,4 +884,12 @@ int Sysdeps<SetRlimit>::operator()(int resource, const struct rlimit *limit) {
 	return 0;
 }
 
+int Sysdeps<Pwrite>::operator()(int fd, const void *buf, size_t n, off_t off, ssize_t *bytes_read) {
+	auto ret = syscall(SYS_PWRITE64, fd, (std::uint64_t)buf, n, off);
+	if(int e = error(ret); e)
+		return e;
+	*bytes_read = ret;
+	return 0;
+}
+
 } // namespace mlibc
