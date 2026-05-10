@@ -892,4 +892,12 @@ int Sysdeps<Pwrite>::operator()(int fd, const void *buf, size_t n, off_t off, ss
 	return 0;
 }
 
+int Sysdeps<SetSid>::operator()(pid_t *sid) {
+	auto ret = syscall(SYS_SETSID);
+	if(int e = error(ret); e)
+		return e;
+	*sid = ret;
+	return 0;
+}
+
 } // namespace mlibc
