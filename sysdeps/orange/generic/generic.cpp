@@ -914,4 +914,35 @@ int Sysdeps<SetItimer>::operator()(int which, const struct itimerval *new_value,
 	return 0;
 }
 
+int Sysdeps<Shmat>::operator()(void **seg_start, int shmid, const void *shmaddr, int shmflg) {
+	auto ret = syscall(SYS_SHMAT, shmid, (uint64_t)shmaddr, shmflg);
+	if(int e = error(ret); e)
+		return e;
+	*seg_start = (void*)ret;
+	return 0;
+}
+
+int Sysdeps<Shmctl>::operator()(int *idx, int shmid, int cmd, struct shmid_ds *buf) {
+	auto ret = syscall(SYS_SHMCTL, shmid, cmd, (uint64_t)buf);
+	if(int e = error(ret); e)
+		return e;
+	*idx = ret;
+	return 0;
+}
+
+int Sysdeps<Shmdt>::operator()(const void *shmaddr) {
+	auto ret = syscall(SYS_SHMDT, (uint64_t)shmaddr);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Shmget>::operator()(int *shm_id, key_t key, size_t size, int shmflg) {
+	auto ret = syscall(SYS_SHMGET, key, size, shmflg);
+	if(int e = error(ret); e)
+		return e;
+	*shm_id = ret;
+	return 0;
+}
+
 } // namespace mlibc

@@ -95,6 +95,10 @@
 #define SYS_SETSID 92
 #define SYS_GETITIMER 93
 #define SYS_SETITIMER 94
+#define SYS_SHMAT 95
+#define SYS_SHMCTL 96
+#define SYS_SHMGET 97
+#define SYS_SHMDT 98
 
 #ifndef __MLIBC_ABI_ONLY
 

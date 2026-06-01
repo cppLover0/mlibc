@@ -117,7 +117,11 @@ struct OrangeSysdepTags :
 	Pwrite,
 	SetSid,
 	GetItimer,
-	SetItimer
+	SetItimer,
+	Shmget,
+	Shmat,
+	Shmctl,
+	Shmdt
 {};
 
 template<typename Tag>
