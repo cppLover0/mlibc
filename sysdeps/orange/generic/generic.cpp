@@ -900,4 +900,18 @@ int Sysdeps<SetSid>::operator()(pid_t *sid) {
 	return 0;
 }
 
+int Sysdeps<GetItimer>::operator()(int which, struct itimerval *curr_value) {
+	auto ret = syscall(SYS_GETITIMER, which, (uint64_t)curr_value);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<SetItimer>::operator()(int which, const struct itimerval *new_value, struct itimerval *old_value) {
+	auto ret = syscall(SYS_SETITIMER, which, (uint64_t)new_value, (uint64_t)old_value);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

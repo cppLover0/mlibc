@@ -93,6 +93,8 @@
 #define SYS_SOCKETPAIR 90
 #define SYS_PWRITE64 91
 #define SYS_SETSID 92
+#define SYS_GETITIMER 93
+#define SYS_SETITIMER 94
 
 #ifndef __MLIBC_ABI_ONLY
 

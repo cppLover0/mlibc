@@ -115,7 +115,9 @@ struct OrangeSysdepTags :
 	Peername,
 	SetRlimit,
 	Pwrite,
-	SetSid
+	SetSid,
+	GetItimer,
+	SetItimer
 {};
 
 template<typename Tag>
