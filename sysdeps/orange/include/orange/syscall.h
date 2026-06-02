@@ -99,6 +99,7 @@
 #define SYS_SHMCTL 96
 #define SYS_SHMGET 97
 #define SYS_SHMDT 98
+#define SYS_GETAFFINITY 99
 
 #ifndef __MLIBC_ABI_ONLY
 
