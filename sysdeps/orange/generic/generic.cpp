@@ -952,4 +952,11 @@ int Sysdeps<GetAffinity>::operator()(pid_t pid, size_t cpusetsize, cpu_set_t *ma
 	return 0;
 }
 
+int Sysdeps<GetThreadaffinity>::operator()(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
+	auto ret = syscall(SYS_GETAFFINITY, pid, cpusetsize, (uint64_t)mask);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

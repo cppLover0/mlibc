@@ -122,7 +122,8 @@ struct OrangeSysdepTags :
 	Shmat,
 	Shmctl,
 	Shmdt,
-	GetAffinity
+	GetAffinity,
+	GetThreadaffinity
 {};
 
 template<typename Tag>
