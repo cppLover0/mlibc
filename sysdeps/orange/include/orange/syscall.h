@@ -103,6 +103,8 @@
 
 #ifndef __MLIBC_ABI_ONLY
 
+#ifdef __cplusplus
+
 inline static int error(long long ret) {
 	auto v = static_cast<long long>(ret);
 	if(static_cast<unsigned long>(v) > -4096UL)
@@ -110,6 +112,7 @@ inline static int error(long long ret) {
 	return 0;
 }
 
+#endif
 
 inline static long syscall(long func, uint64_t p1 = 0, uint64_t p2 = 0, uint64_t p3 = 0, uint64_t p4 = 0, uint64_t p5 = 0, uint64_t p6 = 0) {
 	volatile long ret;
