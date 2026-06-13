@@ -150,7 +150,7 @@ int Sysdeps<EpollCreate>::operator()(int flags, int *fd) {
 	auto ret = syscall(SYS_EPOLL_CREATE, flags);
 	if (int e = error(ret); e)
 		return e;
-	*fd = ret
+	*fd = ret;
 	return 0;
 }
 
