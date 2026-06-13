@@ -123,7 +123,10 @@ struct OrangeSysdepTags :
 	Shmctl,
 	Shmdt,
 	GetAffinity,
-	GetThreadaffinity
+	GetThreadaffinity,
+	EpollCreate,
+	EpollCtl,
+	EpollPwait
 {};
 
 template<typename Tag>

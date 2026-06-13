@@ -146,6 +146,29 @@ int Sysdeps<ClockGet>::operator()(int clock, time_t *secs, long *nanos) {
 	return 0;
 }
 
+int Sysdeps<EpollCreate>::operator()(int flags, int *fd) {
+	auto ret = syscall(SYS_EPOLL_CREATE, flags);
+	if (int e = error(ret); e)
+		return e;
+	*fd = ret
+	return 0;
+}
+
+int Sysdeps<EpollCtl>::operator()(int epfd, int mode, int fd, struct epoll_event *ev) {
+	auto ret = syscall(SYS_EPOLL_CTL, epfd, mode, fd, (uint64_t)ev);
+	if (int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<EpollPwait>::operator()(int epfd, struct epoll_event *ev, int n, int timeout, const sigset_t *sigmask, int *raised) {
+	auto ret = syscall(SYS_EPOLL_WAIT, epfd, (uint64_t)ev, n, timeout, (uint64_t)sigmask);
+	if (int e = error(ret); e)
+		return e;
+	*raised = ret;
+	return 0;
+}
+
 int Sysdeps<GetTid>::operator()() {
 	auto ret = syscall(SYS_GETTID);
 	return ret;
