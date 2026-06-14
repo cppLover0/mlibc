@@ -126,7 +126,8 @@ struct OrangeSysdepTags :
 	GetThreadaffinity,
 	EpollCreate,
 	EpollCtl,
-	EpollPwait
+	EpollPwait,
+	Shutdown
 {};
 
 template<typename Tag>

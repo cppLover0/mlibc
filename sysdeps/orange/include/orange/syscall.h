@@ -105,6 +105,7 @@
 #define SYS_EPOLL_CREATE 102
 #define SYS_EPOLL_CTL 103
 #define SYS_EPOLL_WAIT 104
+#define SYS_SHUTDOWN 105
 
 #ifndef __MLIBC_ABI_ONLY
 
