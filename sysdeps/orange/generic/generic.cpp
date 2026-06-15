@@ -989,4 +989,11 @@ int Sysdeps<Shutdown>::operator()(int sockfd, int how) {
 	return 0;
 }
 
+int Sysdeps<Ftruncate>::operator()(int fd, size_t size) {
+	auto ret = syscall(SYS_FTRUNCATE, fd, size);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

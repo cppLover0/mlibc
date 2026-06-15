@@ -127,7 +127,8 @@ struct OrangeSysdepTags :
 	EpollCreate,
 	EpollCtl,
 	EpollPwait,
-	Shutdown
+	Shutdown,
+	Ftruncate
 {};
 
 template<typename Tag>
