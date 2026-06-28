@@ -26,6 +26,7 @@ libc_sources += files(
 	'generic/signalfd.cpp',
 	'generic/timerfd.cpp',
 	'generic/eventfd.cpp',
+	'generic/ifaddrs.cpp',
 	host_machine.cpu_family() / 'thread.S',
 	host_machine.cpu_family() / 'signal.S',
 )
@@ -84,6 +85,7 @@ if not no_headers
 		'include/abi-bits/vm-flags.h',
 		'include/abi-bits/wait.h',
 		'include/abi-bits/sigset_t.h',
+		'include/abi-bits/aio.h',
 		subdir: 'abi-bits',
 		follow_symlinks: true,
 	)
@@ -105,6 +107,10 @@ if not no_headers
 	)
 
 	install_headers('include/mntent.h')
+	install_headers('include/ifaddrs.h')
+
+	install_headers('include/netpacket/packet.h', subdir: 'netpacket')
+	install_headers('include/net/bpf.h', subdir: 'net')
 endif
 
 if not headers_only

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mlibc/sysdep-signatures.hpp>
+#include <mlibc/sysdep-traits.hpp>
 
 namespace mlibc {
 
@@ -175,6 +176,14 @@ struct LinuxSysdepTags :
 	MqReceive,
 	MqGetAttr,
 	MqSetAttr,
+	AioRead,
+	AioWrite,
+	AioFsync,
+	AioListio,
+	AioSuspend,
+	AioCancel,
+	AioError,
+	AioReturn,
 #endif // __MLIBC_POSIX_OPTION
 
 #if __MLIBC_BSD_OPTION
@@ -221,6 +230,7 @@ struct LinuxSysdepTags :
 	Fstatfs,
 	Statx,
 	Getifaddrs,
+	Freeifaddrs,
 	Sendfile,
 	Syncfs,
 	Unshare,
@@ -318,5 +328,9 @@ struct LinuxSysdepTags :
 
 template<typename Tag>
 using Sysdeps = SysdepOf<LinuxSysdepTags, Tag>;
+
+struct SysdepTraits {
+	static constexpr bool usesRtNetlink = true;
+};
 
 } // namespace mlibc

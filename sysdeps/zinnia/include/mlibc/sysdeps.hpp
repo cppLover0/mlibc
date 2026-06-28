@@ -133,6 +133,7 @@ struct ZinniaSysdepTags :
 	Sigsuspend,
 	Sigpending,
 	Madvise,
+	PosixMadvise,
 	GetItimer,
 	SetItimer,
 	TimerCreate,
@@ -167,10 +168,15 @@ struct ZinniaSysdepTags :
 	TimerfdGettime,
 	Msync,
 	InetConfigured,
-	Sysconf
+	Sysconf,
+	Pause
 {};
 
 template<typename Tag>
 using Sysdeps = SysdepOf<ZinniaSysdepTags, Tag>;
+
+struct SysdepTraits {
+	static constexpr bool usesRtNetlink = false;
+};
 
 } // namespace mlibc

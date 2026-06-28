@@ -235,6 +235,8 @@ SYSDEP_FUNC(SetRegid, gid_t rgid, gid_t egid);
 SYSDEP_FUNC(GetLoginR, char *name, size_t name_len);
 SYSDEP_FUNC(IfIndextoname, unsigned int index, char *name);
 SYSDEP_FUNC(IfNametoindex, const char *name, unsigned int *ret);
+SYSDEP_FUNC(IfNameindex, struct if_nameindex **out);
+SYSDEP_FUNC_RET(void, IfFreeNameindex, struct if_nameindex *ifn);
 SYSDEP_FUNC(Ptsname, int fd, char *buffer, size_t length);
 SYSDEP_FUNC(Unlockpt, int fd);
 SYSDEP_FUNC(ThreadSetname, void *tcb, const char *name);
@@ -266,6 +268,14 @@ SYSDEP_FUNC(MqUnlink, const char *name);
 SYSDEP_FUNC(MqReceive, mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned *msg_prio);
 SYSDEP_FUNC(MqGetAttr, mqd_t mqdes, mq_attr *mqstat);
 SYSDEP_FUNC(MqSetAttr, mqd_t mqdes, const mq_attr *mqstat, mq_attr *omqstat);
+SYSDEP_FUNC(AioRead, struct aiocb *cb);
+SYSDEP_FUNC(AioWrite, struct aiocb *cb);
+SYSDEP_FUNC(AioFsync, int op, struct aiocb *cb);
+SYSDEP_FUNC(AioListio, int mode, struct aiocb *__restrict const list[], int n, struct sigevent *__restrict sevp);
+SYSDEP_FUNC(AioSuspend, const struct aiocb *const list[], int n, const struct timespec *ts);
+SYSDEP_FUNC(AioCancel, int fildes, struct aiocb *cb, int *result);
+SYSDEP_FUNC(AioError, const struct aiocb *cb, int *out);
+SYSDEP_FUNC(AioReturn, struct aiocb *cb, ssize_t *out);
 #endif // __MLIBC_POSIX_OPTION
 
 #if __MLIBC_LINUX_OPTION
@@ -301,6 +311,7 @@ SYSDEP_FUNC(Statfs, const char *path, struct statfs *buf);
 SYSDEP_FUNC(Fstatfs, int fd, struct statfs *buf);
 SYSDEP_FUNC(Statx, int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf);
 SYSDEP_FUNC(Getifaddrs, struct ifaddrs **);
+SYSDEP_FUNC_RET(void, Freeifaddrs, struct ifaddrs *ifa);
 SYSDEP_FUNC(Sendfile, int outfd, int infd, off_t *offset, size_t count, ssize_t *out);
 SYSDEP_FUNC(Syncfs, int fd);
 SYSDEP_FUNC(Unshare, int flags);
@@ -352,6 +363,13 @@ SYSDEP_FUNC(Brk, void **out);
 SYSDEP_FUNC(GetLoadavg, double *samples);
 SYSDEP_FUNC(Openpty, int *mfd, int *sfd, char *name, const struct termios *ios, const struct winsize *win);
 #endif // __MLIBC_BSD_OPTION
+
+#if __MLIBC_BSD_PROCDESC_OPTION
+SYSDEP_FUNC(Pdfork, int *fdp, int flags, pid_t *child);
+SYSDEP_FUNC(Pdkill, int fd, int sig);
+SYSDEP_FUNC(Pdgetpid, int fd, pid_t *pidp);
+SYSDEP_FUNC(Pdwait, int fd, int *status, int options, struct __wrusage *rusage, siginfo_t *info);
+#endif // __MLIBC_BSD_PROCDESC_OPTION
 
 #if __MLIBC_GLIBC_OPTION
 SYSDEP_FUNC(Personality, unsigned long persona, int *out);

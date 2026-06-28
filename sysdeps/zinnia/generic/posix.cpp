@@ -5,7 +5,9 @@
 #include <mlibc/all-sysdeps.hpp>
 #include <mlibc/debug.hpp>
 #include <mlibc/tcb.hpp>
+#include <ifaddrs.h>
 #include <net/if.h>
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -326,12 +328,8 @@ void Sysdeps<Yield>::operator()() { zinnia_syscall(SYSCALL_YIELD); }
 
 int
 Sysdeps<Waitpid>::operator()(pid_t pid, int *status, int flags, struct rusage *ru, pid_t *ret_pid) {
-	if (ru) {
-		mlibc::infoLogger() << "mlibc: struct rusage in sys_waitpid is unsupported" << frg::endlog;
-		return ENOSYS;
-	}
 again:
-	auto r = zinnia_syscall(SYSCALL_WAITPID, pid, (size_t)status, flags);
+	auto r = zinnia_syscall(SYSCALL_WAITPID, pid, (size_t)status, flags, (size_t)ru);
 	if (r.error) {
 		if (r.error == EINTR)
 			goto again;
@@ -740,6 +738,10 @@ int Sysdeps<Madvise>::operator()(void *addr, size_t length, int advice) {
 	return zinnia_syscall(SYSCALL_MADVISE, (size_t)addr, length, advice).error;
 }
 
+int Sysdeps<PosixMadvise>::operator()(void *addr, size_t length, int advice) {
+	return zinnia_syscall(SYSCALL_MADVISE, (size_t)addr, length, advice).error;
+}
+
 int Sysdeps<GetItimer>::operator()(int which, struct itimerval *curr_value) {
 	return zinnia_syscall(SYSCALL_ITIMER_GET, which, (size_t)curr_value).error;
 }
@@ -873,11 +875,32 @@ int Sysdeps<IfNametoindex>::operator()(const char *name, unsigned int *ret) {
 }
 
 int Sysdeps<InetConfigured>::operator()(bool *ipv4, bool *ipv6) {
-	// TODO
 	if (ipv4)
-		*ipv4 = true;
+		*ipv4 = false;
 	if (ipv6)
 		*ipv6 = false;
+
+	struct ifaddrs *ifaddr = nullptr;
+	if (getifaddrs(&ifaddr) != 0)
+		return 0;
+
+	for (struct ifaddrs *ifa = ifaddr; ifa; ifa = ifa->ifa_next) {
+		if (!ifa->ifa_addr || !ifa->ifa_name)
+			continue;
+		if (!strncmp(ifa->ifa_name, "lo", IF_NAMESIZE))
+			continue;
+
+		if (ifa->ifa_addr->sa_family == AF_INET) {
+			auto *in = reinterpret_cast<struct sockaddr_in *>(ifa->ifa_addr);
+			if (in->sin_addr.s_addr != 0 && ipv4)
+				*ipv4 = true;
+		} else if (ifa->ifa_addr->sa_family == AF_INET6) {
+			if (ipv6)
+				*ipv6 = true;
+		}
+	}
+
+	freeifaddrs(ifaddr);
 	return 0;
 }
 
@@ -887,6 +910,10 @@ int Sysdeps<Sysconf>::operator()(int num, long *ret) {
 		return r.error;
 	*ret = r.value;
 	return 0;
+}
+
+int Sysdeps<Pause>::operator()() {
+	return sysdep<Ppoll>(NULL, 0, NULL, NULL, NULL);
 }
 
 } // namespace mlibc
