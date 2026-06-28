@@ -107,6 +107,7 @@
 #define SYS_EPOLL_WAIT 104
 #define SYS_SHUTDOWN 105
 #define SYS_FTRUNCATE 106
+#define SYS_FCHOWNAT 107
 
 #ifndef __MLIBC_ABI_ONLY
 
@@ -118,8 +119,6 @@ inline static int error(long long ret) {
 	    return -v;
 	return 0;
 }
-
-#endif
 
 inline static long syscall(long func, uint64_t p1 = 0, uint64_t p2 = 0, uint64_t p3 = 0, uint64_t p4 = 0, uint64_t p5 = 0, uint64_t p6 = 0) {
 	volatile long ret;
@@ -135,5 +134,7 @@ inline static long syscall(long func, uint64_t p1 = 0, uint64_t p2 = 0, uint64_t
 		: "memory", "rcx", "r11");
     return ret;
 }
+
+#endif
 
 #endif 

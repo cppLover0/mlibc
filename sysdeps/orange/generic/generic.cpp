@@ -996,4 +996,11 @@ int Sysdeps<Ftruncate>::operator()(int fd, size_t size) {
 	return 0;
 }
 
+int Sysdeps<Fchownat>::operator()(int dirfd, const char *pathname, uid_t owner, gid_t group, int flags) {
+	auto ret = syscall(SYS_FCHOWNAT, dirfd, (uint64_t)pathname, owner, group, flags);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
