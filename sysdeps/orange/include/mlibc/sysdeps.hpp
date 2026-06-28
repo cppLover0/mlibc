@@ -134,4 +134,8 @@ struct OrangeSysdepTags :
 template<typename Tag>
 using Sysdeps = SysdepOf<OrangeSysdepTags, Tag>;
 
+struct SysdepTraits {
+	static constexpr bool usesRtNetlink = false;
+};
+
 } // namespace mlibc
