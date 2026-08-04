@@ -1,8 +1,8 @@
 sysdep_supported_options = {
-	'posix': true,
-	'linux': true,
-	'glibc': true,
-	'bsd': true,
+    'posix': true,
+    'linux': true,
+    'glibc': true,
+    'bsd': true,
 }
 
 rtld_sources += files(
