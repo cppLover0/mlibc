@@ -266,6 +266,7 @@ SharedObject *ObjectRepository::injectStaticObject(frg::string_view name,
 
 frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithName(frg::string_view name,
 		SharedObject *origin, Scope *localScope, bool createScope, uint64_t rts) {
+			mlibc::infoLogger() << "xxxxx44234234234234 " << name << frg::endlog;
 	if (auto obj = findLoadedObject(name))
 		return obj;
 
@@ -1174,16 +1175,22 @@ void ObjectRepository::_discoverDependencies(SharedObject *object,
 
 		auto libraryResult = requestObjectWithName(frg::string_view{library_str},
 				object, localScope, false, rts);
+			mlibc::panicLogger() << "5555 " << library_str << frg::endlog;
 		if(!libraryResult)
 			mlibc::panicLogger() << "Could not satisfy dependency " << library_str << frg::endlog;
 
 		auto library = libraryResult.value();
+		mlibc::panicLogger() << "5555999 " << library_str << frg::endlog;
 		object->dependencies.push(library);
+		mlibc::panicLogger() << "5555nnnn " << library_str << frg::endlog;
 		if (library->wasVisited)
 			continue;
+			mlibc::panicLogger() << "55556666 " << library_str << frg::endlog;
 		library->wasVisited = true;
 		dependencyQueue.push_back(library);
+		mlibc::panicLogger() << "5555555 " << library_str << frg::endlog;
 	}
+	mlibc::panicLogger() << "5555111 " << library_str << frg::endlog;
 }
 
 void ObjectRepository::_addLoadedObject(SharedObject *object) {
