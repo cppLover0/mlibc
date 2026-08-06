@@ -339,9 +339,11 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 				mlibc::infoLogger() << "rtld: failed to open " << name << frg::endlog;
 			return result.error();
 		}
+		mlibc::infoLogger() << "xxxxx " << name << frg::endlog;
 		return object;
 	};
 
+	mlibc::infoLogger() << "xxxxx11 " << name << frg::endlog;
 	if (origin && origin->runPath) {
 		size_t start = 0;
 		size_t idx = 0;
@@ -366,6 +368,8 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 				// architecture can be present.
 			}
 		}
+
+		mlibc::infoLogger() << "xxxx414x " << name << frg::endlog;
 		if (!res) {
 			auto path = rpath.sub_string(start, rpath.size() - start);
 			auto rpathResult = processRpath(path);
@@ -375,6 +379,8 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 	} else if (rtldConfig.debug) {
 		mlibc::infoLogger() << "rtld: no rpath set for object" << frg::endlog;
 	}
+
+	mlibc::infoLogger() << "xxx123131312312xx " << name << frg::endlog;
 
 	for(size_t i = 0; i < libraryPaths->size() && !res; i++) {
 		auto ldPath = (*libraryPaths)[i];
@@ -393,6 +399,8 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 		}
 	}
 
+	mlibc::infoLogger() << "22222222 " << name << frg::endlog;
+
 	if(!res)
 		return res.error();
 
@@ -403,6 +411,8 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 	_parseDynamic(object);
 	_parseVerdef(object);
 	_addLoadedObject(object);
+
+	mlibc::infoLogger() << "xxxxCCCCVVASSDADx " << name << frg::endlog;
 
 	return object;
 }
