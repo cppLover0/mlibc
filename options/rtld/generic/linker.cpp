@@ -480,6 +480,8 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectAtPath
 void ObjectRepository::discoverDependenciesFromLoadedObject(SharedObject *object) {
 	_discoverDependencies(object, object->localScope, object->objectRts);
 	_parseVerneed(object);
+	mlibc::infoLogger() << "say gex3" << frg::endlog;
+	
 }
 
 SharedObject *ObjectRepository::findCaller(void *addr) {
