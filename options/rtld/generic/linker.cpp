@@ -2071,7 +2071,11 @@ void Loader::_publishTlsMaps(size_t previousSize) {
 }
 
 void Loader::initObjects(ObjectRepository *repository) {
+
+	mlibc::infoLogger() << "say gex3123iiiii1" << frg::endlog;
 	initTlsObjects(mlibc::get_current_tcb(), _linkBfs, true);
+
+mlibc::infoLogger() << "say gex31231bbbbb" << frg::endlog;
 
 	if (_mainExecutable && _mainExecutable->preInitArray) {
 		if (rtldConfig.debugVerbose)
@@ -2083,20 +2087,21 @@ void Loader::initObjects(ObjectRepository *repository) {
 		for(size_t i = 0; i < _mainExecutable->preInitArraySize / sizeof(InitFuncPtr); i++)
 			_mainExecutable->preInitArray[i]();
 	}
-
+mlibc::infoLogger() << "say gex31231bbbpopbb" << frg::endlog;
 	// Convert the breadth-first representation to a depth-first post-order representation,
 	// so that every object is initialized *after* its dependencies.
 	for(auto object : _linkBfs) {
 		if(!object->scheduledForInit)
 			_scheduleInit(object);
 	}
-
+mlibc::infoLogger() << "say gex31231bbbb,,,,b" << frg::endlog;
 	for(auto object : _initQueue) {
 		if(!object->wasInitialized) {
 			doInitialize(object);
 			repository->addObjectToDestructQueue(object);
 		}
 	}
+	mlibc::infoLogger() << "say gex312464631bbbbb" << frg::endlog;
 }
 
 // TODO: Use an explicit vector to reduce stack usage to O(1)?
