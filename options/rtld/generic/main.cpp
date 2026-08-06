@@ -682,6 +682,9 @@ mlibc::infoLogger() << "say gex36" << frg::endlog;
 	dl_debug_state();
 
 	mlibc::infoLogger() << "say gex31231" << frg::endlog;
+	initialRepository.get();
+	mlibc::infoLogger() << "vvvvvv" << frg::endlog;
+	
 	linker.initObjects(initialRepository.get());
 mlibc::infoLogger() << "say gex3" << frg::endlog;
 
