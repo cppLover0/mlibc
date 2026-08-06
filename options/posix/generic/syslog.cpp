@@ -145,7 +145,9 @@ void vsyslog(int priority, const char *message, va_list ap) {
 
 	int cs;
 	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
+	mlibc::infoLogger() << "vvvv6" << frg::endlog;
 	frg::unique_lock<FutexLock> lock(__syslog_lock);
+	mlibc::infoLogger() << "vvvv9" << frg::endlog;
 	_vsyslog(priority, message, ap);
 	pthread_setcancelstate(cs, nullptr);
 }

@@ -39,7 +39,6 @@ struct alignas(4) FutexLockImpl {
 					return;
 				}
 			}else{
-				mlibc::infoLogger() << "tid and this tid" << (expected & ownerMask) << " " << this_tid << frg::endlog;
 				// If this (recursive) mutex is already owned by us, increment the recursion level.
 				if((expected & ownerMask) == this_tid) {
 					if constexpr (Recursive)
