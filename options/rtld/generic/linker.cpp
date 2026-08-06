@@ -2097,8 +2097,11 @@ mlibc::infoLogger() << "say gex31231bbbpopbb" << frg::endlog;
 mlibc::infoLogger() << "say gex31231bbbb,,,,b" << frg::endlog;
 	for(auto object : _initQueue) {
 		if(!object->wasInitialized) {
+			mlibc::infoLogger() << "say bbbbb" << object << frg::endlog;
 			doInitialize(object);
+			mlibc::infoLogger() << "say nnn" << frg::endlog;
 			repository->addObjectToDestructQueue(object);
+			mlibc::infoLogger() << "say mmm" << frg::endlog;
 		}
 	}
 	mlibc::infoLogger() << "say gex312464631bbbbb" << frg::endlog;
