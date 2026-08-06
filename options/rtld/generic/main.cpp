@@ -689,7 +689,7 @@ mlibc::infoLogger() << "say gex3" << frg::endlog;
 		mlibc::infoLogger() << "Leaving ld.so, jump to "
 				<< (void *)executableSO->entry << frg::endlog;
 
-				mlibc::infoLogger() << "say gex3777" << frg::endlog;
+	mlibc::infoLogger() << "say gex3777" << frg::endlog;
 	return executableSO->entry;
 }
 
