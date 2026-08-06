@@ -683,6 +683,7 @@ mlibc::infoLogger() << "say gex36" << frg::endlog;
 
 	mlibc::infoLogger() << "say gex31231" << frg::endlog;
 	linker.initObjects(initialRepository.get());
+mlibc::infoLogger() << "say gex3" << frg::endlog;
 
 	if(rtldConfig.debug)
 		mlibc::infoLogger() << "Leaving ld.so, jump to "
