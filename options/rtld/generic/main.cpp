@@ -652,7 +652,7 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 	// We can't initialise the ldso object after the executable SO,
 	// so we have to set the ldso path after loading both.
 	ldso->path = executableSO->interpreterPath;
-mlibc::infoLogger() << "say gex3111" << frg::endlog;
+
 	// Discover dependencies in a breadth-first search.
 	for (size_t i = 0; i < initialRepository->dependencyQueue.size(); i++) {
 		auto current = initialRepository->dependencyQueue[i];
@@ -661,38 +661,28 @@ mlibc::infoLogger() << "say gex3111" << frg::endlog;
 	}
 #endif
 
-	mlibc::infoLogger() << "say gex34" << frg::endlog;
-
 	globalDebugInterface.head = &executableSO->linkMap;
 	executableSO->inLinkMap = true;
 	Loader linker{globalScope.get(), executableSO, true, 1};
 	linker.linkObjects(executableSO);
-mlibc::infoLogger() << "say gex35" << frg::endlog;
+
 	mlibc::initStackGuard(stack_entropy);
 
 	auto tcb = allocateTcb();
 	tcb->tid = earlyTcb.tid;
 	if(mlibc::sysdep<TcbSet>(tcb))
 		__ensure(!"sys_tcb_set() failed");
-mlibc::infoLogger() << "say gex36" << frg::endlog;
+
 	globalDebugInterface.ver = 1;
 	globalDebugInterface.brk = &dl_debug_state;
-	mlibc::infoLogger() << "say gex5553" << frg::endlog;
 	globalDebugInterface.state = 0;
 	dl_debug_state();
 
-	mlibc::infoLogger() << "say gex31231" << frg::endlog;
-	initialRepository.get();
-	mlibc::infoLogger() << "vvvvvv" << frg::endlog;
-	
 	linker.initObjects(initialRepository.get());
-mlibc::infoLogger() << "say gex3" << frg::endlog;
 
 	if(rtldConfig.debug)
 		mlibc::infoLogger() << "Leaving ld.so, jump to "
 				<< (void *)executableSO->entry << frg::endlog;
-
-	mlibc::infoLogger() << "say gex3777" << frg::endlog;
 	return executableSO->entry;
 }
 

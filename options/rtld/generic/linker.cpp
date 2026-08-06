@@ -266,7 +266,6 @@ SharedObject *ObjectRepository::injectStaticObject(frg::string_view name,
 
 frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithName(frg::string_view name,
 		SharedObject *origin, Scope *localScope, bool createScope, uint64_t rts) {
-			mlibc::infoLogger() << "xxxxx44234234234234 " << name << frg::endlog;
 	if (auto obj = findLoadedObject(name))
 		return obj;
 
@@ -340,11 +339,9 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 				mlibc::infoLogger() << "rtld: failed to open " << name << frg::endlog;
 			return result.error();
 		}
-		mlibc::infoLogger() << "xxxxx " << name << frg::endlog;
 		return object;
 	};
 
-	mlibc::infoLogger() << "xxxxx11 " << name << frg::endlog;
 	if (origin && origin->runPath) {
 		size_t start = 0;
 		size_t idx = 0;
@@ -369,8 +366,6 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 				// architecture can be present.
 			}
 		}
-
-		mlibc::infoLogger() << "xxxx414x " << name << frg::endlog;
 		if (!res) {
 			auto path = rpath.sub_string(start, rpath.size() - start);
 			auto rpathResult = processRpath(path);
@@ -380,8 +375,6 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 	} else if (rtldConfig.debug) {
 		mlibc::infoLogger() << "rtld: no rpath set for object" << frg::endlog;
 	}
-
-	mlibc::infoLogger() << "xxx123131312312xx " << name << frg::endlog;
 
 	for(size_t i = 0; i < libraryPaths->size() && !res; i++) {
 		auto ldPath = (*libraryPaths)[i];
@@ -400,8 +393,6 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 		}
 	}
 
-	mlibc::infoLogger() << "22222222 " << name << frg::endlog;
-
 	if(!res)
 		return res.error();
 
@@ -412,8 +403,6 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectWithNa
 	_parseDynamic(object);
 	_parseVerdef(object);
 	_addLoadedObject(object);
-
-	mlibc::infoLogger() << "xxxxCCCCVVASSDADx " << name << frg::endlog;
 
 	return object;
 }
@@ -480,8 +469,6 @@ frg::expected<LinkerError, SharedObject *> ObjectRepository::requestObjectAtPath
 void ObjectRepository::discoverDependenciesFromLoadedObject(SharedObject *object) {
 	_discoverDependencies(object, object->localScope, object->objectRts);
 	_parseVerneed(object);
-	mlibc::infoLogger() << "say gex3" << frg::endlog;
-	
 }
 
 SharedObject *ObjectRepository::findCaller(void *addr) {
@@ -780,8 +767,6 @@ frg::expected<LinkerError, void> ObjectRepository::_fetchFromFile(SharedObject *
 		}
 	}
 
-	mlibc::infoLogger() << "rtld: say gex " << object->name
-				<< " at " << (void *)object->baseAddress << frg::endlog;
 	return frg::success;
 }
 
@@ -1177,22 +1162,16 @@ void ObjectRepository::_discoverDependencies(SharedObject *object,
 
 		auto libraryResult = requestObjectWithName(frg::string_view{library_str},
 				object, localScope, false, rts);
-			mlibc::infoLogger() << "5555 " << library_str << frg::endlog;
 		if(!libraryResult)
 			mlibc::panicLogger() << "Could not satisfy dependency " << library_str << frg::endlog;
 
 		auto library = libraryResult.value();
-		mlibc::infoLogger() << "5555999 " << library_str << frg::endlog;
 		object->dependencies.push(library);
-		mlibc::infoLogger() << "5555nnnn " << library_str << frg::endlog;
 		if (library->wasVisited)
 			continue;
-		mlibc::infoLogger() << "55556666 " << library_str << frg::endlog;
 		library->wasVisited = true;
 		dependencyQueue.push_back(library);
-		mlibc::infoLogger() << "5555555 " << library_str << frg::endlog;
 	}
-	mlibc::infoLogger() << "5555111 " << frg::endlog;
 }
 
 void ObjectRepository::_addLoadedObject(SharedObject *object) {
@@ -2071,11 +2050,7 @@ void Loader::_publishTlsMaps(size_t previousSize) {
 }
 
 void Loader::initObjects(ObjectRepository *repository) {
-
-	mlibc::infoLogger() << "say gex3123iiiii1" << frg::endlog;
 	initTlsObjects(mlibc::get_current_tcb(), _linkBfs, true);
-
-mlibc::infoLogger() << "say gex31231bbbbb" << frg::endlog;
 
 	if (_mainExecutable && _mainExecutable->preInitArray) {
 		if (rtldConfig.debugVerbose)
@@ -2087,24 +2062,20 @@ mlibc::infoLogger() << "say gex31231bbbbb" << frg::endlog;
 		for(size_t i = 0; i < _mainExecutable->preInitArraySize / sizeof(InitFuncPtr); i++)
 			_mainExecutable->preInitArray[i]();
 	}
-mlibc::infoLogger() << "say gex31231bbbpopbb" << frg::endlog;
+
 	// Convert the breadth-first representation to a depth-first post-order representation,
 	// so that every object is initialized *after* its dependencies.
 	for(auto object : _linkBfs) {
 		if(!object->scheduledForInit)
 			_scheduleInit(object);
 	}
-mlibc::infoLogger() << "say gex31231bbbb,,,,b" << frg::endlog;
+
 	for(auto object : _initQueue) {
 		if(!object->wasInitialized) {
-			mlibc::infoLogger() << "say bbbbb" << object << frg::endlog;
 			doInitialize(object);
-			mlibc::infoLogger() << "say nnn" << frg::endlog;
 			repository->addObjectToDestructQueue(object);
-			mlibc::infoLogger() << "say mmm" << frg::endlog;
 		}
 	}
-	mlibc::infoLogger() << "say gex312464631bbbbb" << frg::endlog;
 }
 
 // TODO: Use an explicit vector to reduce stack usage to O(1)?
