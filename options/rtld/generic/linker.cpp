@@ -1175,7 +1175,7 @@ void ObjectRepository::_discoverDependencies(SharedObject *object,
 
 		auto libraryResult = requestObjectWithName(frg::string_view{library_str},
 				object, localScope, false, rts);
-			mlibc::panicLogger() << "5555 " << library_str << frg::endlog;
+			mlibc::infoLogger() << "5555 " << library_str << frg::endlog;
 		if(!libraryResult)
 			mlibc::panicLogger() << "Could not satisfy dependency " << library_str << frg::endlog;
 
