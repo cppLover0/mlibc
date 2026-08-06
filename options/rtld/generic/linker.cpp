@@ -1357,8 +1357,10 @@ void doInitialize(SharedObject *object) {
 	if(rtldConfig.debugVerbose)
 		mlibc::infoLogger() << "rtld: Running DT_INIT_ARRAY functions" << frg::endlog;
 	__ensure((object->initArraySize % sizeof(InitFuncPtr)) == 0);
-	for(size_t i = 0; i < object->initArraySize / sizeof(InitFuncPtr); i++)
-		object->initArray[i]();
+	for(size_t i = 0; i < object->initArraySize / sizeof(InitFuncPtr); i++) {
+			mlibc::infoLogger() << "rtld: running func " << object->initArray[i] << frg::endlog;
+			object->initArray[i]();
+	}
 
 	if(rtldConfig.debugVerbose)
 		mlibc::infoLogger() << "rtld: Object initialization complete" << frg::endlog;
