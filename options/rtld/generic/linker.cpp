@@ -1185,12 +1185,12 @@ void ObjectRepository::_discoverDependencies(SharedObject *object,
 		mlibc::panicLogger() << "5555nnnn " << library_str << frg::endlog;
 		if (library->wasVisited)
 			continue;
-			mlibc::panicLogger() << "55556666 " << library_str << frg::endlog;
+		mlibc::panicLogger() << "55556666 " << library_str << frg::endlog;
 		library->wasVisited = true;
 		dependencyQueue.push_back(library);
 		mlibc::panicLogger() << "5555555 " << library_str << frg::endlog;
 	}
-	mlibc::panicLogger() << "5555111 " << library_str << frg::endlog;
+	mlibc::panicLogger() << "5555111 " << frg::endlog;
 }
 
 void ObjectRepository::_addLoadedObject(SharedObject *object) {
