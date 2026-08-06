@@ -767,6 +767,8 @@ frg::expected<LinkerError, void> ObjectRepository::_fetchFromFile(SharedObject *
 		}
 	}
 
+	mlibc::infoLogger() << "rtld: say gex " << object->name
+				<< " at " << (void *)object->baseAddress << frg::endlog;
 	return frg::success;
 }
 
