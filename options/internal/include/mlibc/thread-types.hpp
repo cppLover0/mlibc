@@ -13,7 +13,7 @@
 #include <threads.h>
 #include <time.h>
 
-static constexpr size_t default_stacksize = 0x200000;
+static constexpr size_t default_stacksize = 0x800000;
 static constexpr size_t default_guardsize = 4096;
 
 struct __mlibc_threadattr {
