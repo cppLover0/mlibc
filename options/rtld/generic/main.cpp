@@ -673,6 +673,9 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 	if(mlibc::sysdep<TcbSet>(tcb))
 		__ensure(!"sys_tcb_set() failed");
 
+	if(rtldConfig.debug)
+		mlibc::infoLogger() << "AT_BASE " << getauxval(AT_BASE) << frg::endlog;
+
 	globalDebugInterface.ver = 1;
 	globalDebugInterface.brk = &dl_debug_state;
 	globalDebugInterface.state = 0;

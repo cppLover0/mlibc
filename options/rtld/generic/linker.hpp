@@ -544,4 +544,4 @@ extern "C" void pltRelocateStub() __attribute__((__visibility__("hidden")));
 // --------------------------------------------------------
 
 uintptr_t *rtld_auxvector();
-
+unsigned long getauxval(unsigned long type);
