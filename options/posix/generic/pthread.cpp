@@ -51,7 +51,7 @@ private:
 	const char *_function;
 };
 
-#define SCOPE_TRACE() ScopeTrace(__FILE__, __LINE__, __FUNCTION__)
+#define SCOPE_TRACE() 0
 
 static_assert(sizeof(__mlibc_mutex) == sizeof(pthread_mutex_t));
 static_assert(alignof(__mlibc_mutex) == sizeof(uintptr_t));
