@@ -84,8 +84,33 @@ void Sysdeps<LibcLog>::operator()(const char *message) {
 	do_syscall(SYS_write, 2, &lf, 1);
 }
 
+struct StackFrame {
+    StackFrame* rbp;
+    uintptr_t rip;
+};
+
 void Sysdeps<LibcPanic>::operator()() {
-	__builtin_trap();
+    mlibc::infoLogger() << "mlibc: panic occurred, printing backtrace:" << frg::endlog;
+    
+    StackFrame* frame;
+    __asm__ volatile("mov %%rbp, %0" : "=r"(frame));
+    
+    int frame_num = 0;
+    while (frame) {
+        if ((uintptr_t)frame < 0x1000) {
+            break;
+        }
+        
+        uintptr_t rip = frame->rip;
+        mlibc::infoLogger() << "mlibc: #" << frame_num << " 0x" << std::hex << rip << std::dec << frg::endlog;
+        
+        frame = frame->rbp;
+        frame_num++;
+    
+        if (frame_num > 100) break;
+    }
+    
+    __builtin_trap();
 }
 
 pid_t Sysdeps<FutexTid>::operator()() {
