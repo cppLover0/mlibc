@@ -403,7 +403,7 @@ void Sysdeps<Yield>::operator()() {
 extern "C" void __mlibc_thread_entry();
 
 int Sysdeps<Clone>::operator()(void *tcb, pid_t *pid_out, void *stack) {
-	auto ret = syscall(SYS_NEWTHREAD, (uint64_t)__mlibc_thread_entry, (uint64_t)stack, 1024 * 1024 * 4);
+	auto ret = syscall(SYS_NEWTHREAD, (uint64_t)__mlibc_thread_entry, (uint64_t)stack, 0x800000);
 	if(int e = error(ret); e)
 		return e;
 	*pid_out = ret;
