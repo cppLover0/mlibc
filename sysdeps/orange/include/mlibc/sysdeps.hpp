@@ -130,7 +130,8 @@ struct OrangeSysdepTags :
 	Shutdown,
 	Ftruncate,
 	Fchownat,
-	GetCurrentStackInfo
+	GetCurrentStackInfo,
+	Madvise
 {};
 
 template<typename Tag>
