@@ -102,7 +102,7 @@ void Sysdeps<LibcPanic>::operator()() {
         }
         
         uintptr_t rip = frame->rip;
-        mlibc::infoLogger() << "mlibc: #" << frame_num << " 0x" << rip << frg::endlog;
+        mlibc::infoLogger() << "mlibc: #" << frame_num << " 0x" << (void*)rip << frg::endlog;
         
         frame = frame->rbp;
         frame_num++;
