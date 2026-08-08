@@ -1014,7 +1014,6 @@ int Sysdeps<GetCurrentStackInfo>::operator()(void **stack_base, size_t *stack_si
 }
 
 int Sysdeps<Madvise>::operator()(void *, size_t, int) {
-	mlibc::infoLogger() << "mlibc: sys_madvise is a stub!" << frg::endlog;
 	return 0;
 }
 
