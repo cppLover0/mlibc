@@ -403,7 +403,7 @@ void Sysdeps<Yield>::operator()() {
 extern "C" void __mlibc_thread_entry();
 
 int Sysdeps<Clone>::operator()(void *tcb, pid_t *pid_out, void *stack) {
-	auto ret = syscall(SYS_NEWTHREAD, (uint64_t)__mlibc_thread_entry, (uint64_t)stack);
+	auto ret = syscall(SYS_NEWTHREAD, (uint64_t)__mlibc_thread_entry, (uint64_t)stack, 1024 * 1024 * 4);
 	if(int e = error(ret); e)
 		return e;
 	*pid_out = ret;
@@ -1002,6 +1002,14 @@ int Sysdeps<Fchownat>::operator()(int dirfd, const char *pathname, uid_t owner, 
 	auto ret = syscall(SYS_FCHOWNAT, dirfd, (uint64_t)pathname, owner, group, flags);
 	if(int e = error(ret); e)
 		return e;
+	return 0;
+}
+
+int Sysdeps<GetCurrentStackInfo>::operator()(void **stack_base, size_t *stack_size) {
+	auto ret = syscall(SYS_STACKINFO, (uint64_t)stack_base);
+	if(int e = error(ret); e)
+		return e;
+	*stack_size = ret;
 	return 0;
 }
 

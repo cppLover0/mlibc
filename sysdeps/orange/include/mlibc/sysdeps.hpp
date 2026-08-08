@@ -129,7 +129,8 @@ struct OrangeSysdepTags :
 	EpollPwait,
 	Shutdown,
 	Ftruncate,
-	Fchownat
+	Fchownat,
+	GetCurrentStackInfo
 {};
 
 template<typename Tag>
