@@ -110,6 +110,7 @@
 #define SYS_FCHOWNAT 107
 #define SYS_FSYNC 108
 #define SYS_STACKINFO 109
+#define SYS_FSTATFS 110
 
 #ifndef __MLIBC_ABI_ONLY
 

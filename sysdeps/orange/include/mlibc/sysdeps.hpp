@@ -131,7 +131,8 @@ struct OrangeSysdepTags :
 	Ftruncate,
 	Fchownat,
 	GetCurrentStackInfo,
-	Madvise
+	Madvise,
+	Fstatfs
 {};
 
 template<typename Tag>

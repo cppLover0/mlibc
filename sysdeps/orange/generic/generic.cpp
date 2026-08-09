@@ -1017,4 +1017,11 @@ int Sysdeps<Madvise>::operator()(void *, size_t, int) {
 	return 0;
 }
 
+int Sysdeps<Fstatfs>::operator()(int fd, struct statfs *buf) {
+	auto ret = syscall(SYS_FSTATFS, fd, (uint64_t)buf);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
