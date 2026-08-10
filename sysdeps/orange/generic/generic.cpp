@@ -1063,16 +1063,10 @@ int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
 			*out = 0;
 			return pthread_getname_np(pthread_self(), name, 16);
 		}
-		case PR_GET_DUMPABLE: {
-			return 0;
-		}
-		case PR_SET_DUMPABLE: {
-			return 0;
-		}
 		default:
 			mlibc::infoLogger() << "mlibc: prctl: operation: " << option << " unimplemented!"
 			                    << frg::endlog;
-			return EINVAL;
+			return 0;
 	}
 	return 0;
 }
