@@ -1024,4 +1024,12 @@ int Sysdeps<Fstatfs>::operator()(int fd, struct statfs *buf) {
 	return 0;
 }
 
+int Sysdeps<EventfdCreate>::operator()(unsigned int initval, int flags, int *fd) {
+	auto ret = syscall(SYS_EVENTFD_CREATE, initval, flags);
+	if(int e = error(ret); e)
+		return e;
+	*fd = ret;
+	return 0;
+}
+
 } // namespace mlibc

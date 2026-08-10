@@ -132,7 +132,8 @@ struct OrangeSysdepTags :
 	Fchownat,
 	GetCurrentStackInfo,
 	Madvise,
-	Fstatfs
+	Fstatfs,
+	EventfdCreate
 {};
 
 template<typename Tag>
