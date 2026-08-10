@@ -134,7 +134,8 @@ struct OrangeSysdepTags :
 	Madvise,
 	Fstatfs,
 	EventfdCreate,
-	VmProtect
+	VmProtect,
+	Prctl
 {};
 
 template<typename Tag>

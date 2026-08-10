@@ -1,6 +1,7 @@
 #include <abi-bits/errno.h>
 #include <bits/ensure.h>
 #include <orange/syscall.h>
+#include <mlibc/debug.hpp>
 #include <bits/ansi/timespec.h>
 #include <asm/ioctls.h>
 #include <mlibc/all-sysdeps.hpp>
@@ -1034,6 +1035,11 @@ int Sysdeps<EventfdCreate>::operator()(unsigned int initval, int flags, int *fd)
 
 int Sysdeps<VmProtect>::operator()(void *pointer, size_t size, int prot) {
 	return 0;
+}
+
+int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
+	mlibc::infoLogger() << "prctl is a stub ! option " << option << frg::endlog;
+	*out = 0;
 }
 
 } // namespace mlibc
