@@ -1037,9 +1037,46 @@ int Sysdeps<VmProtect>::operator()(void *pointer, size_t size, int prot) {
 	return 0;
 }
 
+#ifndef MLIBC_BUILDING_RTLD	
+
+#include <pthread.h>
+#include <stdio.h>
+#include <sys/eventfd.h>
+#include <sys/inotify.h>
+#include <sys/prctl.h>
+#include <sys/reboot.h>
+#include <sys/signalfd.h>
+#include <sys/sysmacros.h>
+
 int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
-	mlibc::infoLogger() << "prctl is a stub ! option " << option << frg::endlog;
-	*out = 0;
+	switch (option) {
+		case PR_CAPBSET_READ:
+			*out = 1;
+			return 0;
+		case PR_SET_NAME: {
+			const auto name = va_arg(va, char *);
+			*out = 0;
+			return pthread_setname_np(pthread_self(), name);
+		}
+		case PR_GET_NAME: {
+			const auto name = va_arg(va, char *);
+			*out = 0;
+			return pthread_getname_np(pthread_self(), name, 16);
+		}
+		case PR_GET_DUMPABLE: {
+			return 0;
+		}
+		case PR_SET_DUMPABLE: {
+			return 0;
+		}
+		default:
+			mlibc::infoLogger() << "mlibc: prctl: operation: " << option << " unimplemented!"
+			                    << frg::endlog;
+			return EINVAL;
+	}
+	return 0;
 }
+
+#endif
 
 } // namespace mlibc
