@@ -583,9 +583,7 @@ void do_tzset(void) {
 } // namespace
 
 void tzset(void) {
-	mlibc::infoLogger() << "vvvv" << frg::endlog;
 	frg::unique_lock<FutexLock> lock(__time_lock);
-	mlibc::infoLogger() << "vvvvb" << frg::endlog;
 	do_tzset();
 }
 
@@ -944,9 +942,7 @@ struct tm *localtime_r(const time_t *unix_gmt, struct tm *res) {
 	time_t offset = 0;
 	bool dst;
 	char *tm_zone;
-	mlibc::infoLogger() << "vvvv555" << frg::endlog;
 	frg::unique_lock<FutexLock> lock(__time_lock);
-	mlibc::infoLogger() << "vvvv123" << frg::endlog;
 	// TODO: Set errno if the conversion fails.
 	if(unix_local_from_gmt(*unix_gmt, &offset, &dst, &tm_zone)) {
 		__ensure(!"Error parsing /etc/localtime");

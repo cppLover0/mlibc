@@ -30,7 +30,6 @@ static FutexLock __syslog_lock;
 static const struct sockaddr_un log_addr {AF_UNIX, "/dev/log"};
 
 void closelog(void) {
-	mlibc::infoLogger() << "vvvv8" << frg::endlog;
 	frg::unique_lock<FutexLock> holder { __syslog_lock };
 	close(log_fd);
 	log_fd = -1;
@@ -48,7 +47,6 @@ static void __openlog() {
 }
 
 void openlog(const char *ident, int options, int facility) {
-	mlibc::infoLogger() << "vvvv-" << frg::endlog;
 	frg::unique_lock<FutexLock> holder { __syslog_lock };
 	if(ident) {
 		size_t n = strnlen(ident, sizeof log_ident - 1);
@@ -147,9 +145,7 @@ void vsyslog(int priority, const char *message, va_list ap) {
 
 	int cs;
 	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
-	mlibc::infoLogger() << "vvvv6" << frg::endlog;
 	frg::unique_lock<FutexLock> lock(__syslog_lock);
-	mlibc::infoLogger() << "vvvv9" << frg::endlog;
 	_vsyslog(priority, message, ap);
 	pthread_setcancelstate(cs, nullptr);
 }
