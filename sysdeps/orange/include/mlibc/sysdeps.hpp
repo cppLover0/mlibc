@@ -133,7 +133,8 @@ struct OrangeSysdepTags :
 	GetCurrentStackInfo,
 	Madvise,
 	Fstatfs,
-	EventfdCreate
+	EventfdCreate,
+	VmProtect
 {};
 
 template<typename Tag>

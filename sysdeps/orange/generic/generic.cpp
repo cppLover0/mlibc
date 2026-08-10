@@ -1032,4 +1032,8 @@ int Sysdeps<EventfdCreate>::operator()(unsigned int initval, int flags, int *fd)
 	return 0;
 }
 
+int Sysdeps<VmProtect>::operator()(void *pointer, size_t size, int prot) {
+	return 0;
+}
+
 } // namespace mlibc
