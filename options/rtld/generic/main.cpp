@@ -437,6 +437,9 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 			mlibc::panicLogger() << "rtld: unexpected DT_FLAGS_1 value of " << frg::hex_fmt(ent->d_un.d_val) << " in program interpreter" << frg::endlog;
 			break;
 		}
+		case 29: {
+			break;
+		}
 		default:
 			mlibc::panicLogger() << "rtld: unexpected dynamic entry " << ent->d_tag << " in program interpreter %d" << i << frg::endlog;
 		}
