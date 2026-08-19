@@ -438,7 +438,7 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 			break;
 		}
 		default:
-			mlibc::panicLogger() << "rtld: unexpected dynamic entry " << ent->d_tag << " in program interpreter" << frg::endlog;
+			mlibc::panicLogger() << "rtld: unexpected dynamic entry " << ent->d_tag << " in program interpreter %d" << i << frg::endlog;
 		}
 	}
 	__ensure(strtab_offset);
