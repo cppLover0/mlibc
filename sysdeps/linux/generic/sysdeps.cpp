@@ -2213,6 +2213,14 @@ int Sysdeps<Unlockpt>::operator()(int fd) {
 }
 
 #if !MLIBC_BUILDING_RTLD
+
+#include <mlibc/all-sysdeps.hpp>
+#include <mlibc/allocator.hpp>
+#include <mlibc/debug.hpp>
+#include <mlibc/dlapi.hpp>
+#include <mlibc/thread-entry.hpp>
+#include <mlibc/thread-types.hpp>
+
 int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
 	if(strlen(name) > 15) {
 		return ERANGE;
