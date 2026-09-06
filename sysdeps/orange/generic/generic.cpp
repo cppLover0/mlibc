@@ -1073,12 +1073,6 @@ int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
 
 #include <string.h>
 #include <pthread.h>
-#include <mlibc/all-sysdeps.hpp>
-#include <mlibc/allocator.hpp>
-#include <mlibc/debug.hpp>
-#include <mlibc/dlapi.hpp>
-#include <mlibc/thread-entry.hpp>
-#include <mlibc/thread-types.hpp>
 #include <mlibc/tcb.hpp>
 
 int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
