@@ -37,7 +37,7 @@ thread_local pthread_once_t has_cached_infos = PTHREAD_ONCE_INIT;
 void actuallyCacheInfos() {
 	posix::ManagarmProcessData data;
 	HEL_CHECK(
-	    helSyscall1(kHelCallSuper + posix::superGetProcessData, reinterpret_cast<HelWord>(&data))
+	    helSyscall2(kHelCallSuper + posix::superGetProcessData, reinterpret_cast<HelWord>(&data), sizeof(posix::ManagarmProcessData))
 	);
 
 	__mlibc_posix_lane = data.posixLane;
@@ -73,18 +73,6 @@ SignalGuard::~SignalGuard() {
 			__ensure(result == 1);
 		}
 	}
-}
-
-void *ShardedSlabPolicy::map(size_t size) {
-	void *ptr;
-	auto e = mlibc::sysdep<AnonAllocate>(size, &ptr);
-	__ensure(!e);
-	return ptr;
-}
-
-void ShardedSlabPolicy::unmap(void *ptr, size_t size) {
-	auto e = mlibc::sysdep<AnonFree>(ptr, size);
-	__ensure(!e);
 }
 
 SysdepsPool &getSysdepsPool() {
