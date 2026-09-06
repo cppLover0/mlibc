@@ -631,7 +631,6 @@ if not headers_only
 	if c_compiler.get_id() == 'clang'
 		libc_cpp_args += ['-fno-sanitize=function', '-Wno-vla-cxx-extension']
 		# Disable libstdc++ assertions to avoid undefined references to std::__glibcxx_assert_fail
-		libc_cpp_args += ['-U_GLIBCXX_ASSERTIONS', '-D_GLIBCXX_NO_ASSERTIONS']
 		ld_cpp_args += ['-fno-sanitize=function']
 	elif c_compiler.get_id() == 'gcc'
 		libc_cpp_args += ['-nostdinc']
