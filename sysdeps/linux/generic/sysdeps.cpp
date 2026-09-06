@@ -2220,6 +2220,7 @@ int Sysdeps<Unlockpt>::operator()(int fd) {
 #include <mlibc/dlapi.hpp>
 #include <mlibc/thread-entry.hpp>
 #include <mlibc/thread-types.hpp>
+#include <mlibc/tcb.hpp>
 
 int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
 	if(strlen(name) > 15) {
