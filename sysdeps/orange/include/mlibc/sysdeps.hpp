@@ -103,7 +103,7 @@ struct OrangeSysdepTags :
 	SetGid,
 	SetUid,
 	ThreadSetname,
-	ThreadGetName,
+	ThreadGetname,
 	GetSockopt,
 	SetSockopt,
 	Ptsname,
