@@ -847,10 +847,6 @@ int Sysdeps<SetUid>::operator()(uid_t uid) {
 	return 0;
 }
 
-int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
-	return 0;
-}
-
 int Sysdeps<GetSockopt>::operator()(int fd, int layer, int number, void *__restrict buffer, socklen_t *__restrict size) { 
 	auto ret = syscall(SYS_GETSOCKOPT, fd, layer, number, (uint64_t)buffer, (uint64_t)size);
 	if(int e = error(ret); e)
@@ -1068,6 +1064,47 @@ int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
 			                    << frg::endlog;
 			return 0;
 	}
+	return 0;
+}
+
+#endif
+
+#if !MLIBC_BUILDING_RTLD
+
+#include <string.h>
+#include <pthread.h>
+
+int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
+	if(strlen(name) > 15) {
+		return ERANGE;
+	}
+
+	auto t = reinterpret_cast<Tcb *>(tcb);
+	int cs = 0;
+
+	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
+
+	auto ret = syscall(SYS_SET_THREAD_NAME, t->tid, (uint64_t)name);
+	if(int e = error(ret); e)
+		return e;
+
+	pthread_setcancelstate(cs, nullptr);
+
+	return 0;
+}
+
+int Sysdeps<ThreadGetname>::operator()(void *tcb, char *name, size_t size) {
+	auto t = reinterpret_cast<Tcb *>(tcb);
+	int cs = 0;
+
+	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
+
+	auto ret = syscall(SYS_GET_THREAD_NAME, t->tid, (uint64_t)name, size);
+	if(int e = error(ret); e)
+		return e;
+
+	pthread_setcancelstate(cs, nullptr);
+
 	return 0;
 }
 
