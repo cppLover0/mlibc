@@ -6,6 +6,9 @@
 #include <asm/ioctls.h>
 #include <mlibc/all-sysdeps.hpp>
 #include <string.h>
+#include <pthread.h>
+#include <mlibc/tcb.hpp>
+#include <string.h>
 
 #include <abi-bits/fcntl.h>
 
@@ -1070,10 +1073,6 @@ int Sysdeps<Prctl>::operator()(int option, va_list va, int *out) {
 #endif
 
 #if !MLIBC_BUILDING_RTLD
-
-#include <string.h>
-#include <pthread.h>
-#include <mlibc/tcb.hpp>
 
 int Sysdeps<ThreadSetname>::operator()(void *tcb, const char *name) {
 	if(strlen(name) > 15) {
