@@ -826,12 +826,16 @@ char *nl_langinfo_l(nl_item item, localeinfo * loc) {
 	if (item_num == 0xFFFF && category != LC_ALL)
 		return l->getCategoryLocaleName(category).data();
 
+	if(category == 2)
+		goto time;
+
 	switch(item) {
 		case CODESET:
 			return const_cast<char *>(l->ctype.get(CODESET).asString().data());
 
 		case _NL_TIME_CODESET:
 		case ABDAY_1 ... _DATE_FMT:
+time:
 			return const_cast<char *>(l->time.get(item).asString().data());
 
 		case DECIMAL_POINT:
