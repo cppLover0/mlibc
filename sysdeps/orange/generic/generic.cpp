@@ -1110,4 +1110,37 @@ int Sysdeps<ThreadGetname>::operator()(void *tcb, char *name, size_t size) {
 
 #endif
 
+/*
+
+// int sys_timerfd_create(int clockid, int flags, int *fd);
+struct TimerfdCreate {};
+// int sys_timerfd_settime(int fd, int flags, const struct itimerspec *value, struct itimerspec *oldvalue);
+struct TimerfdSettime {};
+// int sys_timerfd_gettime(int fd, struct itimerspec *its);
+struct TimerfdGettime {};
+
+*/
+
+int Sysdeps<TimerfdCreate>::operator()(int clockid, int flags, int *fd) {
+	auto ret = syscall(SYS_TIMERFD_CREATE, clockid, flags);
+	if(int e = error(ret); e)
+		return e;
+	*fd = ret;
+	return 0;
+}
+
+int Sysdeps<TimerfdSettime>::operator()(int fd, int flags, const struct itimerspec *value, struct itimerspec *oldvalue) {
+	auto ret = syscall(SYS_TIMERFD_SETTIME, fd, flags, (uint64_t)value, (uint64_t)oldvalue);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<TimerfdGettime>::operator()(int fd, struct itimerspec *its) {
+	auto ret = syscall(SYS_TIMERFD_GETTIME, fd, (uint64_t)its);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

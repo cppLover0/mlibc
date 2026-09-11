@@ -136,7 +136,10 @@ struct OrangeSysdepTags :
 	Fstatfs,
 	EventfdCreate,
 	VmProtect,
-	Prctl
+	Prctl,
+	TimerfdCreate,
+	TimerfdSettime,
+	TimerfdGettime
 {};
 
 template<typename Tag>
