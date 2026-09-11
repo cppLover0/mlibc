@@ -853,7 +853,7 @@ int Sysdeps<SetUid>::operator()(uid_t uid) {
 	auto ret = syscall(SYS_SETUID, uid);
 	if(int e = error(ret); e)
 		return e;
-		
+
 	return 0;
 }
 
@@ -1168,6 +1168,21 @@ int Sysdeps<Symlinkat>::operator()(const char *target_path, int dirfd, const cha
 	auto ret = syscall(SYS_SYMLINKAT, (uint64_t)target_path, dirfd, (uint64_t)link_path);
 	if(int e = error(ret); e)
 		return e;
+	return 0;
+}
+
+int Sysdeps<SetGroups>::operator()(size_t size, const gid_t *list) {
+	auto ret = syscall(SYS_SETGROUPS, size, (uint64_t)list);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<GetGroups>::operator()(size_t size, gid_t *list, int *ret) {
+	auto ret1 = syscall(SYS_GETGROUPS, size, (uint64_t)list);
+	if(int e = error(ret1); e)
+		return e;
+	*ret = ret1;
 	return 0;
 }
 

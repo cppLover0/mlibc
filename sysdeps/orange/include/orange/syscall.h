@@ -122,6 +122,8 @@
 #define SYS_GETEUID 119
 #define SYS_SETUID 120
 #define SYS_SETGID 121
+#define SYS_SETGROUPS 122 
+#define SYS_GETGROUPS 123
 
 #ifndef __MLIBC_ABI_ONLY
 
