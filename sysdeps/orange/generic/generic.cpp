@@ -189,7 +189,7 @@ uid_t Sysdeps<GetUid>::operator()() {
 }
 
 uid_t Sysdeps<GetEuid>::operator()() {
-	auto ret = syscall(SYS_GETUID);
+	auto ret = syscall(SYS_GETEUID);
 	return ret;
 }
 
