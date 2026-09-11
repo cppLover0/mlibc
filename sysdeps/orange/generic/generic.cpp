@@ -1143,4 +1143,11 @@ int Sysdeps<TimerfdGettime>::operator()(int fd, struct itimerspec *its) {
 	return 0;
 }
 
+int Sysdeps<ClockGetres>::operator()(int clock, time_t *secs, long *nanos) {
+	(void)clock;
+	*secs = 0;
+	*nanos = 1;
+	return 0;
+}
+
 } // namespace mlibc

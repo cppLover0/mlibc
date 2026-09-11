@@ -139,7 +139,8 @@ struct OrangeSysdepTags :
 	Prctl,
 	TimerfdCreate,
 	TimerfdSettime,
-	TimerfdGettime
+	TimerfdGettime,
+	ClockGetres
 {};
 
 template<typename Tag>
