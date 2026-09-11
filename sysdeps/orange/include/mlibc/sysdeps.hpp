@@ -144,9 +144,10 @@ struct OrangeSysdepTags :
 	Symlink,
 	Symlinkat,
 	SetGroups,
-	GetGroups
+	GetGroups,
+	SetReuid,
+	SetRegid
 {};
-
 template<typename Tag>
 using Sysdeps = SysdepOf<OrangeSysdepTags, Tag>;
 

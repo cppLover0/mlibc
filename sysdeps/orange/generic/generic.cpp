@@ -1186,4 +1186,18 @@ int Sysdeps<GetGroups>::operator()(size_t size, gid_t *list, int *ret) {
 	return 0;
 }
 
+int Sysdeps<SetReuid>::operator()(uid_t ruid, uid_t euid) {
+	auto ret = syscall(SYS_SETREUID, ruid, euid);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<SetRegid>::operator()(gid_t rgid, gid_t egid) {
+	auto ret = syscall(SYS_SETREGID, rgid, egid);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc
