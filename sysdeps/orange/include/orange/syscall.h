@@ -120,6 +120,8 @@
 #define SYS_SYMLINK 117
 #define SYS_SYMLINKAT 118
 #define SYS_GETEUID 119
+#define SYS_SETUID 120
+#define SYS_SETGID 121
 
 #ifndef __MLIBC_ABI_ONLY
 

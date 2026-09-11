@@ -842,11 +842,18 @@ int Sysdeps<Fadvise>::operator()(int fd, off_t offset, off_t length, int advice)
 }
 
 int Sysdeps<SetGid>::operator()(gid_t new_gid) {
-	(void)new_gid;
+	auto ret = syscall(SYS_SETGID, new_gid);
+	if(int e = error(ret); e)
+		return e;
+
 	return 0;
 }
 
 int Sysdeps<SetUid>::operator()(uid_t uid) {
+	auto ret = syscall(SYS_SETUID, uid);
+	if(int e = error(ret); e)
+		return e;
+		
 	return 0;
 }
 
