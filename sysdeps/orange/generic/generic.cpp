@@ -1150,4 +1150,23 @@ int Sysdeps<ClockGetres>::operator()(int clock, time_t *secs, long *nanos) {
 	return 0;
 }
 
+// int sys_symlink(const char *target_path, const char *link_path);
+struct Symlink {};
+// int sys_symlinkat(const char *target_path, int dirfd, const char *link_path);
+struct Symlinkat {};
+
+int Sysdeps<Symlink>::operator()(const char *target_path, const char *link_path) {
+	auto ret = syscall(SYS_SYMLINK, (uint64_t)target_path, (uint64_t)link_path);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
+int Sysdeps<Symlinkat>::operator()(const char *target_path, int dirfd, const char *link_path) {
+	auto ret = syscall(SYS_SYMLINKAT, (uint64_t)target_path, dirfd, (uint64_t)link_path);
+	if(int e = error(ret); e)
+		return e;
+	return 0;
+}
+
 } // namespace mlibc

@@ -140,7 +140,9 @@ struct OrangeSysdepTags :
 	TimerfdCreate,
 	TimerfdSettime,
 	TimerfdGettime,
-	ClockGetres
+	ClockGetres,
+	Symlink,
+	Symlinkat
 {};
 
 template<typename Tag>
